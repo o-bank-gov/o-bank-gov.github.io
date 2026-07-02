@@ -3,133 +3,265 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Реформы и Указы | О-Банк</title>
+    <title>Ключевые показатели | О-Банк</title>
     <style>
         :root {
-            --bg-color: #080f1e;
-            --panel-bg: #111b30;
-            --accent: #00f2fe;
-            --accent-gold: #c5a880;
-            --text: #ffffff;
-            --text-muted: #8da2bb;
+            --bg-main: #ffffff;
+            --text-main: #000000;
+            --text-muted: #848d95;
+            --border-color: #e3e6e8;
+            --accent-blue: #002d62;
+            --card-bg: #f4f5f7;
+            --footer-bg: #444c56;
+            --footer-bottom: #2d333b;
         }
-        body {
-            font-family: 'Segoe UI', Arial, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text);
-            margin: 0;
-            padding: 0;
-        }
-        nav {
-            background-color: var(--panel-bg);
-            padding: 15px 0;
-            border-bottom: 1px solid rgba(0, 242, 254, 0.2);
-            text-align: center;
-        }
-        nav a {
-            color: var(--text);
-            text-decoration: none;
-            margin: 0 20px;
-            font-weight: 600;
-            text-transform: uppercase;
-            font-size: 0.9rem;
-            letter-spacing: 1px;
-        }
-        nav a:hover { color: var(--accent); }
-        
-        .container { max-width: 900px; margin: 40px auto; padding: 0 20px; }
-        
-        .section-card {
-            background-color: var(--panel-bg);
-            padding: 30px;
-            border-radius: 8px;
-            margin-bottom: 30px;
-            border-left: 4px solid var(--accent);
-        }
-        h2 { margin-top: 0; color: var(--accent); text-transform: uppercase; font-size: 1.4rem; }
-        
-        /* Стили дорожной карты */
-        .roadmap { margin: 20px 0; }
-        .step { position: relative; padding-left: 30px; margin-bottom: 25px; border-left: 2px solid var(--accent-gold); }
-        .step::before {
-            content: ''; position: absolute; left: -7px; top: 0;
-            width: 12px; height: 12px; border-radius: 50%;
-            background-color: var(--accent); box-shadow: 0 0 10px var(--accent);
-        }
-        .step h3 { margin: 0 0 5px 0; font-size: 1.1rem; color: #fff; }
-        .step p { margin: 0; color: var(--text-muted); font-size: 0.95rem; }
-        
-        /* Стили калькулятора */
-        .calc-box { display: flex; gap: 15px; margin-top: 20px; align-items: center; }
-        .calc-box input {
-            padding: 12px; background-color: var(--bg-color);
-            border: 1px solid rgba(255,255,255,0.1); border-radius: 6px;
-            color: #fff; font-size: 1rem; width: 60%;
-        }
-        .calc-result { font-size: 1.2rem; font-weight: bold; color: var(--accent-gold); }
-        
-        footer { text-align: center; padding: 40px 20px; color: var(--text-muted); font-size: 0.85rem; }
+        body.accessible-mode { filter: grayscale(100%) !important; font-size: 1.3rem !important; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background-color: var(--bg-main); color: var(--text-main); margin: 0; padding: 0; -webkit-font-smoothing: antialiased; scroll-behavior: smooth; }
+        .cbr-header { display: flex; justify-content: space-between; align-items: center; padding: 12px 15px; background-color: #ffffff; border-bottom: 1px solid var(--border-color); position: sticky; top: 0; z-index: 100; }
+        .header-left { display: flex; align-items: center; gap: 15px; }
+        .menu-btn { font-size: 1.4rem; background: none; border: none; cursor: pointer; color: #2b2b2b; width: 24px; }
+        .logo-block { display: flex; align-items: center; gap: 8px; text-decoration: none; }
+        .logo-block img { width: 32px; height: 32px; object-fit: contain; }
+        .logo-block span { font-size: 0.95rem; color: #2b2b2b; font-weight: 400; }
+        .header-right { display: flex; align-items: center; gap: 18px; }
+        .icon-btn { background: none; border: none; font-size: 1.1rem; cursor: pointer; color: #2b2b2b; }
+        .hamburger-overlay { display: none; position: fixed; top: 57px; left: 0; width: 100%; height: calc(100vh - 57px); background-color: #ffffff; z-index: 99; overflow-y: auto; padding: 20px 16px; box-sizing: border-box; }
+        .hamburger-overlay.active { display: block; }
+        .menu-top-link { font-size: 1.25rem; font-weight: bold; color: #000; text-decoration: none; display: block; margin-bottom: 18px; }
+        .lang-switch { font-size: 0.9rem; color: var(--text-muted); font-weight: bold; margin-bottom: 25px; }
+        .menu-spoiler-bar { display: flex; align-items: center; gap: 12px; padding: 14px 0; border-bottom: 1px solid var(--border-color); font-size: 1.05rem; font-weight: 500; cursor: pointer; }
+        .plus-icon { width: 18px; height: 18px; border-radius: 50%; background-color: #e3e6e8; color: #848d95; text-align: center; line-height: 18px; font-size: 0.8rem; font-weight: bold; }
+        .menu-spoiler-content { display: none; padding: 12px 15px 12px 30px; font-size: 0.95rem; color: #444c56; line-height: 1.4; background-color: #f8f9fa; }
+        .menu-spoiler-content.active { display: block; }
+        .menu-sub-section { display: flex; flex-direction: column; gap: 18px; padding: 25px 0; border-bottom: 1px solid var(--border-color); }
+        .menu-sub-link { font-size: 1.15rem; font-weight: bold; color: #000; text-decoration: none; }
+        .menu-nested-link { font-size: 1rem; color: #000; text-decoration: none; padding-left: 20px; margin-top: -5px; }
+        .container { padding: 0 16px; margin-bottom: 30px; }
+        .page-title { font-size: 1.6rem; font-weight: bold; margin: 25px 0 20px 0; letter-spacing: -0.5px; }
+        .section-caps { font-size: 0.8rem; font-weight: bold; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin: 25px 0 10px 0; }
+        .dot-row { display: flex; justify-content: space-between; align-items: flex-end; padding: 12px 0; font-size: 1rem; }
+        .dot-label { position: relative; background: #fff; padding-right: 5px; z-index: 2; display: inline; }
+        .dot-leader { flex-grow: 1; border-bottom: 1px dotted var(--border-color); margin-bottom: 5px; position: relative; top: -2px; z-index: 1; }
+        .dot-value { background: #fff; padding-left: 5px; font-weight: 600; z-index: 2; text-align: right; white-space: nowrap; }
+        .sub-date-label { font-size: 0.85rem; color: var(--text-muted); display: block; margin-top: 2px; }
+        .grid-header { display: flex; justify-content: space-between; border-bottom: 1px solid var(--border-color); padding-bottom: 6px; font-size: 0.8rem; color: var(--text-muted); margin-top: 15px; }
+        .grid-row-financial { display: flex; justify-content: space-between; align-items: center; padding: 14px 0; border-bottom: 1px solid var(--border-color); }
+        .fin-meta { display: flex; align-items: center; gap: 8px; font-size: 1rem; }
+        .fin-chem { color: var(--text-muted); font-size: 0.85rem; margin-left: 5px; }
+        .fin-values { display: flex; gap: 15px; font-weight: 600; text-align: right; font-size: 1rem; }
+        .fin-val-box { width: 75px; line-height: 1.2; }
+        .trend-up { color: #00b050; font-weight: bold; margin-left: 3px; }
+        .trend-down { color: #e60012; font-weight: bold; margin-left: 3px; }
+        .spoiler-bar { display: flex; justify-content: space-between; align-items: center; padding: 18px 0; border-bottom: 1px solid var(--border-color); font-size: 1.15rem; font-weight: bold; cursor: pointer; }
+        .spoiler-content { display: none; padding: 15px; background-color: var(--card-bg); border-radius: 4px; margin-top: 5px; font-size: 0.95rem; line-height: 1.5; color: #444c56; }
+        .spoiler-content.active { display: block; }
+        .report-link-block { padding: 16px 0; border-bottom: 1px solid var(--border-color); }
+        .report-date { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 4px; }
+        .report-title { font-size: 1rem; font-weight: 500; color: #000; text-decoration: none; line-height: 1.4; display: block; }
+        .utility-poll-row { display: flex; justify-content: space-between; align-items: center; padding: 25px 0; font-size: 1rem; font-weight: 500; }
+        .poll-buttons { display: flex; gap: 20px; }
+        .poll-btn { background: none; border: none; font-size: 1.3rem; cursor: pointer; }
+        .cbr-footer { background-color: var(--footer-bg); color: #ffffff; padding: 30px 16px 20px 16px; margin-top: 20px; }
+        .footer-top-row { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 20px; margin-bottom: 25px; }
+        .btn-to-top { background: none; border: none; color: #fff; font-size: 0.95rem; cursor: pointer; display: flex; align-items: center; gap: 8px; }
+        .footer-address { font-size: 1.2rem; font-weight: bold; line-height: 1.4; margin-bottom: 25px; }
+        .footer-phone-block { margin-bottom: 20px; }
+        .phone-num { font-size: 1.3rem; font-weight: bold; margin-bottom: 2px; }
+        .phone-desc { font-size: 0.85rem; color: rgba(255,255,255,0.6); line-height: 1.3; }
+        .social-row { display: flex; gap: 10px; margin: 25px 0 30px 0; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 25px; }
+        .social-icon { width: 36px; height: 36px; border-radius: 50%; background-color: rgba(255,255,255,0.1); text-align: center; line-height: 36px; color: #fff; font-size: 1rem; text-decoration: none; font-weight: bold; }
+        .footer-links-grid { display: flex; flex-direction: column; gap: 14px; margin-bottom: 30px; }
+        .footer-link-white { color: #ffffff; text-decoration: none; font-size: 0.95rem; font-weight: 500; line-height: 1.3; }
+        .footer-links-sub { display: flex; flex-direction: column; gap: 12px; margin-top: 15px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 25px; }
+        .footer-link-gray { color: rgba(255,255,255,0.6); text-decoration: none; font-size: 0.9rem; }
+        .footer-accessibility-row { background-color: rgba(255,255,255,0.05); margin: 25px -16px -20px -16px; padding: 15px 16px; display: flex; align-items: center; gap: 10px; font-size: 0.95rem; cursor: pointer; }
+        .footer-bottom-bar { background-color: var(--footer-bottom); color: rgba(255,255,255,0.5); padding: 20px 16px; font-size: 0.85rem; line-height: 1.5; }
     </style>
 </head>
 <body>
 
-    <nav>
-        <a href="index.html">Главная</a>
-        <a href="reforms.html">Реформы и Указы</a>
-        <a href="cabinet.html">Связаться с нами</a>
-    </nav>
-
-    <div class="container">
-        
-        <!-- Блок дорожной карты -->
-        <div class="section-card">
-            <h2>Дорожная карта реформы ЦР (Цифрового Рубля)</h2>
-            <div class="roadmap">
-                <div class="step">
-                    <h3>Этап 1: Нормативная база и интеграция</h3>
-                    <p>Публикация Распоряжения №04/2026. Подключение коммерческих банков сервера к техническому шлюзу О-Банка.</p>
-                </div>
-                <div class="step">
-                    <h3>Этап 2: Контроль приватизации нефтегаза</h3>
-                    <p>Обязательный перевод всех транзакций по покупке долей в сырьевых предприятиях на платформу ЦР. Внедрение смарт-контрактов контроля.</p>
-                </div>
-                <div class="step">
-                    <h3>Этап 3: Массовое внедрение и оффлайн-кошельки</h3>
-                    <p>Выдача игровых выплат и зарплат сотрудникам ведомств исключительно в Цифровых Рублях.</p>
-                </div>
-            </div>
+    <div class="cbr-header" id="topAnchor">
+        <div class="header-left">
+            <button class="menu-btn" id="menuToggleBtn" onclick="toggleMenu()">☰</button>
+            <a href="index.html" class="logo-block">
+                <img src="logo.png" alt="О-Банк">
+                <span>Bank O-Bank</span>
+            </a>
         </div>
-
-        <!-- Блок интерактивного калькулятора -->
-        <div class="section-card" style="border-left-color: var(--accent-gold);">
-            <h2>Конвертер валюты О-Банка</h2>
-            <p>Введите сумму в наличных/безналичных рублях для автоматического расчета эквивалента в обеспеченном Цифровом Рубле регулятора.</p>
-            <div class="calc-box">
-                <input type="number" id="cashInput" placeholder="Введите сумму рублей..." oninput="convertCurrency()">
-                <div class="calc-result" id="crResult">0.00 ЦР</div>
-            </div>
+        <div class="header-right">
+            <button class="icon-btn">🔍</button>
+            <button class="icon-btn" onclick="toggleAccessibility()">👓</button>
         </div>
-
     </div>
 
-    <script>
-        function convertCurrency() {
-            let input = document.getElementById('cashInput').value;
-            let resultBox = document.getElementById('crResult');
-            if(input) {
-                // В нашей экономической модели курс жесткий 1 к 1
-                let total = parseFloat(input).toFixed(2);
-                resultBox.innerHTML = total + " ЦР";
-            } else {
-                resultBox.innerHTML = "0.00 ЦР";
-            }
-        }
-    </script>
+    <div class="hamburger-overlay" id="hamburgerMenu">
+        <div class="lang-switch"><span>RU</span> &nbsp;|&nbsp; EN</div>
+        <a href="cabinet.html" class="menu-top-link">Обратиться в О-Банк</a>
+        <a href="reforms.html" class="menu-top-link">Ключевые показатели</a>
+        <a href="index.html#fraudBlock" class="menu-top-link">Осторожно: мошенники!</a>
+        <div class="menu-spoiler-bar" onclick="toggleMenuSpoiler('m1')"><div class="plus-icon" id="m1-p">+</div> Денежно-кредитная политика</div>
+        <div class="menu-spoiler-content" id="m1">Регулирование процентных ставок, таргетирование инфляции, стерилизация избыточной ликвидности Минфина.</div>
+        <div class="menu-spoiler-bar" onclick="toggleMenuSpoiler('m2')"><div class="plus-icon" id="m2-p">+</div> Финансовая стабильность</div>
+        <div class="menu-spoiler-content" id="m2">Мониторинг рисков системно значимых институтов, контроль крупных кредитов под приватизацию сырьевого сектора.</div>
+        <div class="menu-spoiler-bar" onclick="toggleMenuSpoiler('m6')"><div class="plus-icon" id="m6-p">+</div> Развитие финансовых технологий</div>
+        <div class="menu-spoiler-content" id="m6">**Куратор реформы ЦР (Зампред Правления).** Проектирование и поддержка архитектуры Цифрового Рубля на базе блокчейна.</div>
 
-    <footer>
-        &copy; 2026 О-Банк. Аналитический и регуляторный отдел реформ.
-    </footer>
++ Противодействие отмыванию денег
+Валютный надзор и контроль транзакций в процессе денационализации ресурсов.
++ Удостоверяющий центр О-Банка
+Выдача электронных цифровых подписей (ЭЦП) для легального участия в приватизационных сделках.
++ Технические ресурсы
+API-шлюзы для автоматического обновления курсов валют коммерческими банками.
+Меры защиты финансового рынка
 
-</body>
-</html>
+Новости
+Решения О-Банка
+Параметры операций О-Банка
+Статистика и Аналитика
+Документы среднесрочного планирования
+Реестры (Лицензии банков)
+Контактная информация приемной
+Карта сайта
+О Банке О-Банк
+Правовой статус и функции
+Национальный финансовый совет
+Совет директоров О-Банка (Председатель и Зампред)
+Организационная структура (15 департаментов)
+Международное сотрудничество
+Издания О-Банка
+Вопросы и ответы (FAQ)
+Проверить участника финансового рынка
+Проверка уровня риска на платформе «Знай своего клиента»
+Список компаний с признаками нелегальной деятельности
+Конструктор оценки деловой репутации
 
+
+Ключевые показатели
+Инфляция
+
+Цель по инфляции
+
+4,0%
+
+
+Текущая инфляция май 2026
+
+5,3%
+
+Ключевая ставка
+
+Действующее значение с 22.06.2026
+
+16,00%
+
+Основные indicators финансового рынка ▲
+Базовая процентная ставка межбанковского кредитного рынка RUONIA составляет 14,22% годовых.
+Учетные цены на драгоценные металлы
+рублей за грамм- -
+
+Золото Au
+--
+
+
+Серебро Ag
+--
+
+Курсы валют
+валюта- -
+
+Юань 1 CNY
+--
+
+
+Доллар США 1 USD
+--
+
+
+Евро 1 EUR
+--
+
+Международные резервы Государства ▼
+Текущий объем активов в распоряжении О-Банка составляет 595,4 млрд долларов США.
+Показатели ликвидности банковского сектора ▼
+Мониторинг профицита ликвидности в рамках подготовки к приватизации стратегических сырьевых секторов.
+Требования к кредитным организациям ▼
+Нормативы достаточности капитала и правила целевого финансирования в Цифровых Рублях.
+
+Июнь 2026 г.
+Среднерыночные значения максимальной доходности вкладов физических лиц
+
+
+15.06.2026
+Среднерыночные значения полной стоимости потребительского кредита (займа)
+
+
+Страница была полезной?
+
+👍👎
+
+
+
+Банк О-БанкНаверх ↑
+г. Санкт-Петербург, ул. Неглинная, д. 12, Главный штаб О-Банка
++7 (906) 581-59-40(официальный защищенный канал связи канцелярии Зампреда)
+VKTG
+
+Личный кабинет участника информационного обмена
+Перечень инсайдерской информации О-Банка
+Официальное опубликование нормативных актов
+
+👓 Версия для слабовидящих
+
+© О-Банк, 2000–2026. ОГРН: 1037700000777.
+Дизайн сайта — aic.
+
+function toggleMenu() {
+let menu = document.getElementById('hamburgerMenu');
+let btn = document.getElementById('menuToggleBtn');
+menu.classList.toggle('active');
+btn.innerHTML = menu.classList.contains('active') ? '✕' : '☰';
+}
+function toggleMenuSpoiler(id) {
+let content = document.getElementById(id);
+let plus = document.getElementById(id + '-p');
+content.classList.toggle('active');
+plus.innerHTML = content.classList.contains('active') ? '−' : '+';
+}
+function toggleAccessibility() { document.body.classList.toggle('accessible-mode'); }
+function toggleSpoiler(id) {
+let content = document.getElementById(id);
+let arr = document.getElementById(id + '-arr');
+content.classList.toggle('active');
+arr.innerHTML = content.classList.contains('active') ? '▲' : '▼';
+}
+async function fetchLiveCBRData() {
+try {
+const response = await fetch('allorigins.win' + encodeURIComponent('cbr-xml-daily.ru'));
+const wrapper = await response.json();
+const data = JSON.parse(wrapper.contents);
+let rawDate = new Date(data.Date); let prevDate = new Date(data.PreviousDate);
+document.getElementById('dateCur1').innerText = prevDate.toLocaleDateString('ru-RU');
+document.getElementById('dateCur2').innerText = rawDate.toLocaleDateString('ru-RU');
+document.getElementById('dateMetal1').innerText = prevDate.toLocaleDateString('ru-RU');
+document.getElementById('dateMetal2').innerText = rawDate.toLocaleDateString('ru-RU');
+document.getElementById('cny-prev').innerText = data.Valute.CNY.Previous.toFixed(4) + " Р";
+document.getElementById('cny-curr').innerHTML = data.Valute.CNY.Value.toFixed(4) + " Р" + (data.Valute.CNY.Value < data.Valute.CNY.Previous ? '↓' : '↑');
+document.getElementById('usd-prev').innerText = data.Valute.USD.Previous.toFixed(4) + " Р";
+document.getElementById('usd-curr').innerHTML = data.Valute.USD.Value.toFixed(4) + " Р" + (data.Valute.USD.Value < data.Valute.USD.Previous ? '↓' : '↑');
+document.getElementById('eur-prev').innerText = data.Valute.EUR.Previous.toFixed(4) + " Р";
+document.getElementById('eur-curr').innerHTML = data.Valute.EUR.Value.toFixed(4) + " Р" + (data.Valute.EUR.Value < data.Valute.EUR.Previous ? '↓' : '↑');
+let baseGold = 5824.50; let baseSilver = 74.20;
+document.getElementById('gold-prev').innerText = (baseGold * (data.Valute.USD.Previous / 85)).toFixed(2);
+document.getElementById('gold-curr').innerHTML = (baseGold * (data.Valute.USD.Value / 85)).toFixed(2) + (data.Valute.USD.Value < data.Valute.USD.Previous ? '↓' : '↑');
+document.getElementById('silver-prev').innerText = (baseSilver * (data.Valute.USD.Previous / 85)).toFixed(2);
+document.getElementById('silver-curr').innerHTML = (baseSilver * (data.Valute.USD.Value / 85)).toFixed(2) + (data.Valute.USD.Value < data.Valute.USD.Previous ? '↓' : '↑');
+} catch (error) {
+document.getElementById('cny-curr').innerText = "11,4842 Р"; document.getElementById('usd-curr').innerText = "78,2652 Р"; document.getElementById('eur-curr').innerText = "89,1754 Р";
+document.getElementById('gold-curr').innerText = "5 943,02 Р"; document.getElementById('silver-curr').innerText = "147,94 Р";
+}
+}
+window.onload = fetchLiveCBRData;
+
+
+
+    
