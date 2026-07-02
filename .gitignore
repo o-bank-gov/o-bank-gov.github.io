@@ -1,0 +1,68 @@
+# ============================================
+# О-БАНК: Git Ignore
+# Что НЕ должно попадать в репозиторий
+# ============================================
+
+# 🔒 СЕКРЕТЫ (КРИТИЧНО!)
+.env
+.env.local
+.env.production
+.env.development
+*.key
+*.pem
+secrets/
+credentials/
+
+# 🐍 Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+.venv/
+pip-log.txt
+pip-delete-this-directory.txt
+.pytest_cache/
+*.egg-info/
+dist/
+build/
+
+# 🖥️ IDE и редакторы
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# 📱 Pydroid 3
+.pydroid_project/
+*.log
+
+# 📄 Сгенерированные документы
+contracts/*.pdf
+temp/
+uploads/
+
+# 🗄️ Локальные базы данных
+*.db
+*.sqlite
+*.sqlite3
+
+# 📊 Логи и отладка
+logs/
+*.log
+debug.log
+
+# 🎨 Кэш GitHub Pages
+_site/
+.jekyll-cache/
+
+# 💾 Резервные копии
+*.bak
+*.backup
+*.old
