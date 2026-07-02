@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Реформы и Указы | О-Банк</title>
+    <style>
+        :root {
+            --bg-color: #080f1e;
+            --panel-bg: #111b30;
+            --accent: #00f2fe;
+            --accent-gold: #c5a880;
+            --text: #ffffff;
+            --text-muted: #8da2bb;
+        }
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text);
+            margin: 0;
+            padding: 0;
+        }
+        nav {
+            background-color: var(--panel-bg);
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(0, 242, 254, 0.2);
+            text-align: center;
+        }
+        nav a {
+            color: var(--text);
+            text-decoration: none;
+            margin: 0 20px;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+        }
+        nav a:hover { color: var(--accent); }
+        
+        .container { max-width: 900px; margin: 40px auto; padding: 0 20px; }
+        
+        .section-card {
+            background-color: var(--panel-bg);
+            padding: 30px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            border-left: 4px solid var(--accent);
+        }
+        h2 { margin-top: 0; color: var(--accent); text-transform: uppercase; font-size: 1.4rem; }
+        
+        /* Стили дорожной карты */
+        .roadmap { margin: 20px 0; }
+        .step { position: relative; padding-left: 30px; margin-bottom: 25px; border-left: 2px solid var(--accent-gold); }
+        .step::before {
+            content: ''; position: absolute; left: -7px; top: 0;
+            width: 12px; height: 12px; border-radius: 50%;
+            background-color: var(--accent); box-shadow: 0 0 10px var(--accent);
+        }
+        .step h3 { margin: 0 0 5px 0; font-size: 1.1rem; color: #fff; }
+        .step p { margin: 0; color: var(--text-muted); font-size: 0.95rem; }
+        
+        /* Стили калькулятора */
+        .calc-box { display: flex; gap: 15px; margin-top: 20px; align-items: center; }
+        .calc-box input {
+            padding: 12px; background-color: var(--bg-color);
+            border: 1px solid rgba(255,255,255,0.1); border-radius: 6px;
+            color: #fff; font-size: 1rem; width: 60%;
+        }
+        .calc-result { font-size: 1.2rem; font-weight: bold; color: var(--accent-gold); }
+        
+        footer { text-align: center; padding: 40px 20px; color: var(--text-muted); font-size: 0.85rem; }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="index.html">Главная</a>
+        <a href="reforms.html">Реформы и Указы</a>
+        <a href="cabinet.html">Связаться с нами</a>
+    </nav>
+
+    <div class="container">
+        
+        <!-- Блок дорожной карты -->
+        <div class="section-card">
+            <h2>Дорожная карта реформы ЦР (Цифрового Рубля)</h2>
+            <div class="roadmap">
+                <div class="step">
+                    <h3>Этап 1: Нормативная база и интеграция</h3>
+                    <p>Публикация Распоряжения №04/2026. Подключение коммерческих банков сервера к техническому шлюзу О-Банка.</p>
+                </div>
+                <div class="step">
+                    <h3>Этап 2: Контроль приватизации нефтегаза</h3>
+                    <p>Обязательный перевод всех транзакций по покупке долей в сырьевых предприятиях на платформу ЦР. Внедрение смарт-контрактов контроля.</p>
+                </div>
+                <div class="step">
+                    <h3>Этап 3: Массовое внедрение и оффлайн-кошельки</h3>
+                    <p>Выдача игровых выплат и зарплат сотрудникам ведомств исключительно в Цифровых Рублях.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Блок интерактивного калькулятора -->
+        <div class="section-card" style="border-left-color: var(--accent-gold);">
+            <h2>Конвертер валюты О-Банка</h2>
+            <p>Введите сумму в наличных/безналичных рублях для автоматического расчета эквивалента в обеспеченном Цифровом Рубле регулятора.</p>
+            <div class="calc-box">
+                <input type="number" id="cashInput" placeholder="Введите сумму рублей..." oninput="convertCurrency()">
+                <div class="calc-result" id="crResult">0.00 ЦР</div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        function convertCurrency() {
+            let input = document.getElementById('cashInput').value;
+            let resultBox = document.getElementById('crResult');
+            if(input) {
+                // В нашей экономической модели курс жесткий 1 к 1
+                let total = parseFloat(input).toFixed(2);
+                resultBox.innerHTML = total + " ЦР";
+            } else {
+                resultBox.innerHTML = "0.00 ЦР";
+            }
+        }
+    </script>
+
+    <footer>
+        &copy; 2026 О-Банк. Аналитический и регуляторный отдел реформ.
+    </footer>
+
+</body>
+</html>
+
