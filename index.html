@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -7,218 +9,268 @@
     <style>
         :root {
             --bg-main: #ffffff;
-            --bg-nav: #1b2430;
-            --text-main: #2b2b2b;
-            --text-muted: #858c94;
-            --border-color: #e2e5e9;
-            --accent-blue: #002d62;
-            --font-size-base: 1rem;
+            --text-main: #000000;
+            --text-muted: #848d95;
+            --border-color: #e3e6e8;
+            --cbr-blue: #111c24;
+            --footer-bg: #444c56;
+            --footer-bottom: #2d333b;
+            --card-bg: #f4f5f7;
         }
+        body.accessible-mode { filter: grayscale(100%) !important; font-size: 1.3rem !important; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background-color: var(--bg-main); color: var(--text-main); margin: 0; padding: 0; -webkit-font-smoothing: antialiased; scroll-behavior: smooth; }
+        .cbr-header { display: flex; justify-content: space-between; align-items: center; padding: 12px 15px; background-color: #ffffff; border-bottom: 1px solid var(--border-color); position: sticky; top: 0; z-index: 100; }
+        .header-left { display: flex; align-items: center; gap: 15px; }
+        .menu-btn { font-size: 1.4rem; background: none; border: none; cursor: pointer; color: #2b2b2b; width: 24px; }
+        .logo-block { display: flex; align-items: center; gap: 8px; text-decoration: none; }
+        .logo-block img { width: 32px; height: 32px; object-fit: contain; }
+        .logo-block span { font-size: 0.95rem; color: #2b2b2b; font-weight: 400; }
+        .header-right { display: flex; align-items: center; gap: 18px; }
+        .icon-btn { background: none; border: none; font-size: 1.1rem; cursor: pointer; color: #2b2b2b; }
+        .hamburger-overlay { display: none; position: fixed; top: 57px; left: 0; width: 100%; height: calc(100vh - 57px); background-color: #ffffff; z-index: 99; overflow-y: auto; padding: 20px 16px; box-sizing: border-box; }
+        .hamburger-overlay.active { display: block; }
+        .menu-top-link { font-size: 1.25rem; font-weight: bold; color: #000; text-decoration: none; display: block; margin-bottom: 18px; }
+        .lang-switch { font-size: 0.9rem; color: var(--text-muted); font-weight: bold; margin-bottom: 25px; }
+        .menu-spoiler-bar { display: flex; align-items: center; gap: 12px; padding: 14px 0; border-bottom: 1px solid var(--border-color); font-size: 1.05rem; font-weight: 500; cursor: pointer; }
+        .plus-icon { width: 18px; height: 18px; border-radius: 50%; background-color: #e3e6e8; color: #848d95; text-align: center; line-height: 18px; font-size: 0.8rem; font-weight: bold; }
+        .menu-spoiler-content { display: none; padding: 12px 15px 12px 30px; font-size: 0.95rem; color: #444c56; line-height: 1.4; background-color: #f8f9fa; }
+        .menu-spoiler-content.active { display: block; }
+        .menu-sub-section { display: flex; flex-direction: column; gap: 18px; padding: 25px 0; border-bottom: 1px solid var(--border-color); }
+        .menu-sub-link { font-size: 1.15rem; font-weight: bold; color: #000; text-decoration: none; }
+        .menu-nested-link { font-size: 1rem; color: #000; text-decoration: none; padding-left: 20px; margin-top: -5px; }
+        .cbr-banner { background-color: var(--cbr-blue); color: #ffffff; padding: 30px 20px; position: relative; overflow: hidden; }
+        .banner-title { font-size: 1.4rem; font-weight: 600; line-height: 1.3; max-width: 70%; margin: 0 0 10px 0; }
+        .banner-sub { font-size: 0.85rem; color: rgba(255,255,255,0.6); margin: 0; }
+        .banner-circle { position: absolute; right: -15px; top: 15px; width: 80px; height: 80px; border-radius: 50%; border: 4px solid #e60012; opacity: 0.8; }
+        .banner-dots { display: flex; gap: 6px; margin-top: 25px; }
+        .dot { width: 16px; height: 2px; background-color: rgba(255,255,255,0.3); }
+        .dot.active { background-color: #ffffff; }
+        .container { padding: 0 16px; }
+        .macro-row { display: flex; justify-content: space-between; align-items: flex-start; padding: 16px 0; border-bottom: 1px solid var(--border-color); }
+        .macro-info { display: flex; flex-direction: column; gap: 4px; }
+        .macro-title { font-size: 0.95rem; color: #000000; }
+        .macro-title span { color: var(--text-muted); }
+        .macro-date { font-size: 0.85rem; color: var(--text-muted); }
+        .macro-val { font-size: 1.15rem; font-weight: 600; color: #000000; text-align: right; }
+        .currency-header { display: flex; justify-content: space-between; align-items: flex-end; padding: 25px 0 8px 0; border-bottom: 1px solid var(--border-color); }
+        .currency-title { font-size: 0.85rem; font-weight: 500; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
+        .currency-dates { display: flex; gap: 25px; font-size: 0.8rem; color: var(--text-muted); font-weight: 500; }
+        .currency-item { display: flex; justify-content: space-between; align-items: center; padding: 14px 0; border-bottom: 1px solid var(--border-color); }
+        .currency-meta { display: flex; align-items: center; gap: 12px; }
+        .currency-badge { width: 20px; height: 20px; border-radius: 50%; color: #ffffff; text-align: center; line-height: 20px; font-size: 0.75rem; font-weight: bold; }
+        .currency-values { display: flex; gap: 20px; font-size: 1rem; font-weight: 600; }
+        .cur-val { width: 70px; text-align: right; }
+        .btn-outline-full { display: flex; justify-content: space-between; align-items: center; width: 100%; padding: 14px 15px; margin: 20px 0 35px 0; background: #ffffff; border: 1px solid var(--border-color); border-radius: 4px; font-size: 0.95rem; font-weight: 500; color: var(--text-main); text-decoration: none; box-sizing: border-box; }
+        .grid-icon { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; width: 12px; height: 12px; }
+        .grid-icon div { background-color: #002d62; border-radius: 1px; }
+        .tabs-row { display: flex; gap: 25px; margin-bottom: 15px; border-bottom: 1px solid var(--border-color); padding-bottom: 10px; }
+        .tab-btn { font-size: 1.1rem; font-weight: bold; color: var(--text-muted); cursor: pointer; }
+        .tab-btn.active { color: #000000; border-bottom: 2px solid #000; padding-bottom: 8px; }
+        .all-news-link { display: inline-block; color: #000000; text-decoration: none; font-size: 0.95rem; font-weight: bold; margin-bottom: 20px; }
+        .search-container { position: relative; margin-bottom: 15px; }
+        .search-input { width: 100%; padding: 12px 15px; border: 1px solid var(--border-color); border-radius: 4px; box-sizing: border-box; font-size: 0.95rem; color: #000; }
+        .filters-row { display: flex; gap: 12px; margin-bottom: 30px; }
+        .filter-select { position: relative; width: 50%; border: 1px solid var(--border-color); border-radius: 4px; padding: 12px 10px; font-size: 0.95rem; font-weight: bold; background: #fff; }
+        .filter-select span { position: absolute; top: -7px; left: 10px; background: #fff; padding: 0 4px; font-size: 0.75rem; color: var(--text-muted); font-weight: normal; }
+        .news-block { margin-bottom: 25px; }
+        .news-meta { font-size: 0.85rem; margin-bottom: 6px; color: var(--text-muted); }
+        .news-meta .tag-red { color: #e60012; font-weight: 500; margin-left: 5px; }
+        .news-headline { font-size: 1.15rem; font-weight: 500; line-height: 1.4; color: #000000; margin: 0; text-decoration: none; display: block; }
+        .btn-load-more { width: 100%; padding: 14px; background: #fff; border: 1px solid var(--border-color); border-radius: 4px; font-size: 0.95rem; font-weight: bold; color: #444c56; cursor: pointer; margin-bottom: 40px; }
+        .section-title { font-size: 1.4rem; font-weight: bold; margin: 0 0 20px 0; }
+        .important-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 40px; }
+        .important-card { background-color: var(--card-bg); padding: 20px 15px; border-radius: 4px; text-decoration: none; display: flex; flex-direction: column; gap: 15px; }
+        .card-icon-circle { width: 36px; height: 36px; border-radius: 50%; background-color: #6c757d; color: #fff; text-align: center; line-height: 36px; font-size: 1.1rem; }
+        .card-text { font-size: 0.95rem; font-weight: 500; color: #000; line-height: 1.3; }
+        .projects-list { display: flex; flex-direction: column; gap: 12px; margin-bottom: 40px; }
+        .project-card { background-color: var(--card-bg); padding: 20px; border-radius: 4px; text-decoration: none; display: block; }
+        .project-top { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; }
+        .project-logo-circle { width: 32px; height: 32px; border-radius: 50%; color: #fff; text-align: center; line-height: 32px; font-weight: bold; font-size: 1rem; }
+        .project-name { font-size: 1.1rem; font-weight: bold; color: #000; }
+        .project-desc { font-size: 0.9rem; color: var(--text-muted); line-height: 1.4; margin: 0; }
+        .security-banner { width: 100%; height: auto; border-radius: 4px; display: block; margin-bottom: 20px; }
+        .security-title { font-size: 1.35rem; font-weight: bold; line-height: 1.3; margin: 0 0 10px 0; }
+        .security-desc { font-size: 0.95rem; color: #444c56; line-height: 1.5; margin: 0 0 20px 0; }
+        .cbr-footer { background-color: var(--footer-bg); color: #ffffff; padding: 30px 16px 20px 16px; margin-top: 50px; }
+        .footer-top-row { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 20px; margin-bottom: 25px; }
+        .btn-to-top { background: none; border: none; color: #fff; font-size: 0.95rem; cursor: pointer; display: flex; align-items: center; gap: 8px; }
+        .footer-address { font-size: 1.2rem; font-weight: bold; line-height: 1.4; margin-bottom: 25px; }
+        .footer-phone-block { margin-bottom: 20px; }
+
+.phone-num { font-size: 1.3rem; font-weight: bold; margin-bottom: 2px; }
+.phone-desc { font-size: 0.85rem; color: rgba(255,255,255,0.6); line-height: 1.3; }
+.social-row { display: flex; gap: 10px; margin: 25px 0 30px 0; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 25px; }
+.social-icon { width: 36px; height: 36px; border-radius: 50%; background-color: rgba(255,255,255,0.1); text-align: center; line-height: 36px; color: #fff; font-size: 1rem; text-decoration: none; font-weight: bold; }
+.footer-links-grid { display: flex; flex-direction: column; gap: 14px; margin-bottom: 30px; }
+.footer-link-white { color: #ffffff; text-decoration: none; font-size: 0.95rem; font-weight: 500; line-height: 1.3; }
+.footer-links-sub { display: flex; flex-direction: column; gap: 12px; margin-top: 15px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 25px; }
+.footer-link-gray { color: rgba(255,255,255,0.6); text-decoration: none; font-size: 0.9rem; }
+.footer-accessibility-row { background-color: rgba(255,255,255,0.05); margin: 25px -16px -20px -16px; padding: 15px 16px; display: flex; align-items: center; gap: 10px; font-size: 0.95rem; cursor: pointer; }
+.footer-bottom-bar { background-color: var(--footer-bottom); color: rgba(255,255,255,0.5); padding: 20px 16px; font-size: 0.85rem; line-height: 1.5; }
+
+
+
+
+☰
+
+
+Банк О-Банк
+
+
+
+🔍
+👓
+
+
+RU  |  EN
+Обратиться в О-Банк
+Ключевые показатели
+Осторожно: мошенники!
++ Денежно-кредитная политика
+Регулирование процентных ставок, таргетирование инфляции, стерилизация избыточной ликвидности Минфина.
++ Финансовая стабильность
+Мониторинг рисков системно значимых институтов, контроль крупных кредитов под приватизацию сырьевого сектора.
++ Национальная платежная система
+Регулирование клиринговых центров, обеспечение непрерывности межбанковских транзакций.
++ Наличное денежное обращение
+Организация эмиссии, инкассации и экспертизы подлинности банкнот О-Банка.
++ Развитие финансового рынка
+Подготовка Московской биржи к проведению Народных IPO и сделок по денационализации ресурсов.
++ Развитие финансовых технологий
+Куратор реформы ЦР (Зампред Правления). Проектирование и поддержка архитектуры Цифрового Рубля на базе блокчейна.
++ Информационная безопасность
+Защита банковских шлюзов и кошельков цифрового рубля от хакерских кибератак.
++ Противодействие отмыванию денег
+Валютный надзор и контроль транзакций в процессе денационализации ресурсов.
++ Удостоверяющий центр О-Банка
+Выдача электронных цифровых подписей (ЭЦП) для легального участия в приватизационных сделках.
++ Технические ресурсы
+API-шлюзы для автоматического обновления курсов валют коммерческими банками.
+Меры защиты финансового рынка
+
+Новости
+Решения О-Банка
+Параметры операций О-Банка
+Статистика и Аналитика
+Документы среднесрочного планирования
+Реестры (Лицензии банков)
+Контактная информация приемной
+Карта сайта
+О Банке О-Банк
+Правовой статус и функции
+Национальный финансовый совет
+Совет директоров О-Банка (Председатель и Зампред)
+Организационная структура (15 департаментов)
+Международное сотрудничество
+Издания О-Банка
+Вопросы и ответы (FAQ)
+Проверить участника финансового рынка
+Проверка уровня риска на платформе «Знай своего клиента»
+Список компаний с признаками нелегальной деятельности
+Конструктор оценки деловой репутации
+
+
+
+Финансовый конгресс О-Банка
+№ 2, Июль 2026
+
+
+Цель по инфляции
+4,0%
+
+
+Инфляция iмай 2026
+5,3%
+
+
+Ключевая ставкас 22.06.2026
+16,00%
+
+
+Курс ЦР (Цифровой рубль)на базе блокчейн-сетей
+1,00 Р
+
+Курсы валют
+01.07.202602.07.2026
+
+
+¥CNY, 1 ¥
+11,4932 Р11,4842 Р
+
+
+$USD, 1 $
+78,2696 Р78,2652 Р
+
+
+€EUR, 1 €
+89,2743 Р89,1754 Р
+Все показатели
+
+НовостиНовое на сайте
+Все новости ›
+
+
+Выберите периодЗа все время
+Выберите типВсе
+
+
+Сегодня Пресс-релиз
+Результаты мониторинга максимальных процентных ставок кредитных организаций по приватизационным спецсчетам
+
+
+01 июля 2026 Новости
+Правление О-Банка публикует подробное Резюме обсуждения параметров эмиссии Цифрового Рубля
+
+Загрузить еще
+Важное
+
+📋Реестр коммерческих банков
+📅Дорожная карта реформ
+Проекты О-Банка
+
+
+РФинансовая культура
+Просветительский проект О-Банка о бережном отношении к государственным финансам.
+
+
+ЦЦБ онлайн (Цифровой рубль)
+Цифровой защищенный кошелек для расчетов на базе платформы О-Банка.
+
+
+
+Как защитить свои сбережения от мошенников
+Правление О-Банка раскрывает схемы обмана с цифровыми кошельками и дает рекомендации гражданскому сектору.
+Защититься
+
+
+Банк О-БанкНаверх ↑
+г. Санкт-Петербург, ул. Неглинная, д. 12, Главный штаб О-Банка
++7 (906) 581-59-40(официальный защищенный канал связи канцелярии Зампреда)
+VKTG
+
+Личный кабинет участника информационного обмена
+Перечень инсайдерской информации О-Банка
+Официальное опубликование нормативных актов
+
+👓 Версия для слабовидящих
+
+© О-Банк, 2000–2026. ОГРН: 1037700000777.
+Дизайн сайта — aic.
+
+function toggleMenu() {
+let menu = document.getElementById('hamburgerMenu');
+let btn = document.getElementById('menuToggleBtn');
+menu.classList.toggle('active');
+btn.innerHTML = menu.classList.contains('active') ? '✕' : '☰';
+}
+function toggleMenuSpoiler(id) {
+let content = document.getElementById(id);
+let plus = document.getElementById(id + '-p');
+content.classList.toggle('active');
+plus.innerHTML = content.classList.contains('active') ? '−' : '+';
+}
+function toggleAccessibility() { document.body.classList.toggle('accessible-mode'); }
+
+
+
         
-        /* Класс для режима слабовидящих */
-        body.accessible-mode {
-            --bg-main: #ffffff !important;
-            --bg-nav: #000000 !important;
-            --text-main: #000000 !important;
-            --text-muted: #000000 !important;
-            --border-color: #000000 !important;
-            --accent-blue: #000000 !important;
-            font-size: 1.3rem !important;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: var(--bg-main);
-            color: var(--text-main);
-            margin: 0;
-            padding: 0;
-            -webkit-font-smoothing: antialiased;
-        }
-        
-        /* Кнопка для слабовидящих в самом верху */
-        .top-utility-bar {
-            background-color: #f1f3f5;
-            padding: 8px 20px;
-            text-align: right;
-            border-bottom: 1px solid var(--border-color);
-        }
-        .accessibility-btn {
-            background: none;
-            border: none;
-            color: #002d62;
-            font-size: 0.8rem;
-            font-weight: bold;
-            cursor: pointer;
-            text-decoration: underline;
-        }
-        body.accessible-mode .accessibility-btn {
-            color: #000 !important;
-            font-size: 1.1rem !important;
-        }
-
-        nav {
-            background-color: var(--bg-nav);
-            padding: 12px 0;
-            text-align: center;
-        }
-        nav a {
-            color: #ffffff;
-            text-decoration: none;
-            margin: 0 15px;
-            font-weight: 500;
-            font-size: 0.85rem;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        body.accessible-mode nav a { font-size: 1.1rem !important; color: #fff !important; text-decoration: underline; }
-
-        header {
-            padding: 25px 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 20px;
-            border-bottom: 1px solid var(--border-color);
-            background-color: #f8f9fa;
-        }
-        header img { width: 75px; height: auto; }
-        .header-text { text-align: left; }
-        header h1 { margin: 0; font-size: 1.5rem; color: var(--accent-blue); letter-spacing: 0.5px; font-weight: 700; }
-        header p { margin: 4px 0 0 0; color: var(--text-muted); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; }
-
-        .container { max-width: 800px; margin: 0 auto; padding: 20px; }
-
-        .macro-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 25px;
-            margin-top: 10px;
-        }
-        .macro-table tr { border-bottom: 1px solid var(--border-color); }
-        .macro-table td { padding: 15px 0; vertical-align: middle; }
-        .macro-label { font-size: 0.95rem; color: var(--text-main); }
-        .macro-label span { display: block; font-size: 0.8rem; color: var(--text-muted); margin-top: 4px; }
-        .macro-value { text-align: right; font-size: 1.3rem; font-weight: 600; color: #1a1a1a; white-space: nowrap; }
-
-        /* Блок курсов валют как на скрине */
-        .currency-title {
-            font-size: 0.9rem;
-            font-weight: bold;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            margin-top: 30px;
-            border-bottom: 1px solid var(--border-color);
-            padding-bottom: 5px;
-        }
-        .currency-row {
-            display: flex;
-            justify-content: space-between;
-            padding: 12px 0;
-            border-bottom: 1px solid var(--border-color);
-            font-size: 0.95rem;
-        }
-        .currency-name { display: flex; align-items: center; gap: 10px; }
-        .currency-icon {
-            width: 20px; height: 20px; border-radius: 50%;
-            background-color: #000; color: #fff; text-align: center;
-            font-size: 0.75rem; line-height: 20px; font-weight: bold;
-        }
-        .currency-val { font-weight: 600; }
-
-        .official-section { margin-top: 40px; }
-        .official-section h2 { font-size: 1.3rem; color: var(--accent-blue); margin-bottom: 15px; }
-        .official-section p { font-size: 0.95rem; line-height: 1.6; color: #333333; }
-
-        footer {
-            text-align: center; padding: 30px 20px; color: var(--text-muted); font-size: 0.8rem;
-            border-top: 1px solid var(--border-color); margin-top: 50px; background-color: #f8f9fa;
-        }
-    </style>
-</head>
-<body>
-
-    <!-- Панель со специальной кнопкой -->
-    <div class="top-utility-bar">
-        <button class="accessibility-btn" onclick="toggleAccessibility()">👁 Версия для слабовидящих</button>
-    </div>
-
-    <nav>
-        <a href="index.html">Главная</a>
-        <a href="reforms.html">Реформы</a>
-        <a href="cabinet.html">Связаться с нами</a>
-    </nav>
-
-    <header>
-        <img src="logo.png" alt="О-Банк Логотип">
-        <div class="header-text">
-            <h1>О-БАНК</h1>
-            <p>Центральный Банк Государства</p>
-        </div>
-    </header>
-
-    <div class="container">
-        
-        <table class="macro-table">
-            <tr>
-                <td class="macro-label">Цель по инфляции</td>
-                <td class="macro-value">4,0%</td>
-            </tr>
-            <tr>
-                <td class="macro-label">Инфляция <span>июнь 2026</span></td>
-                <td class="macro-value">5,3%</td>
-            </tr>
-            <tr>
-                <td class="macro-label">Ключевая ставка <span>установлена решением Совета</span></td>
-                <td class="macro-value">16,00%</td>
-            </tr>
-            <tr>
-                <td class="macro-label">Курс ЦР (Цифровой рубль) <span>обеспеченный эквивалент</span></td>
-                <td class="macro-value">1,00 Р</td>
-            </tr>
-        </table>
-
-        <!-- Курсы валют прямо со скриншота ЦБ -->
-        <div class="currency-title">Курсы валют О-Банка</div>
-        
-        <div class="currency-row">
-            <div class="currency-name">
-                <div class="currency-icon" style="background-color: #e60012;">¥</div>
-                <span>CNY, 1 Юань</span>
-            </div>
-            <div class="currency-val">11,4842 Р</div>
-        </div>
-        
-        <div class="currency-row">
-            <div class="currency-name">
-                <div class="currency-icon" style="background-color: #13243f;">$</div>
-                <span>USD, 1 Доллар США</span>
-            </div>
-            <div class="currency-val">78,2652 Р</div>
-        </div>
-
-        <div class="official-section">
-            <h2>Информационное сообщение О-Банка</h2>
-            <p>Пресс-служба государственного регулятора уполномочена заявить: в рамках исполнения поручений Президента по структурной модернизации экономики, Правлением О-Банка разработан комплекс мер по обеспечению монетарной стабильности.</p>
-        </div>
-
-    </div>
-
-    <script>
-        // Скрипт, который переключает обычный режим и режим слабовидящих в один клик!
-        function toggleAccessibility() {
-            document.body.classList.toggle('accessible-mode');
-            let btn = document.querySelector('.accessibility-btn');
-            if(document.body.classList.contains('accessible-mode')) {
-                btn.innerHTML = "👁 Обычная версия сайта";
-            } else {
-                btn.innerHTML = "👁 Версия для слабовидящих";
-            }
-        }
-    </script>
-
-    <footer>
-        &copy; 2026 О-Банк. Официальный сайт Центрального Банка.
-    </footer>
-
-</body>
-</html>
