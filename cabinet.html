@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Контакты и обращения | О-Банк</title>
+    <style>
+        :root {
+            --bg-color: #080f1e;
+            --panel-bg: #111b30;
+            --accent: #00f2fe;
+            --accent-gold: #c5a880;
+            --text: #ffffff;
+            --text-muted: #8da2bb;
+            --error: #ff4a5a;
+        }
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text);
+            margin: 0;
+            padding: 0;
+        }
+        nav {
+            background-color: var(--panel-bg);
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(0, 242, 254, 0.2);
+            text-align: center;
+        }
+        nav a {
+            color: var(--text);
+            text-decoration: none;
+            margin: 0 20px;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+        }
+        nav a:hover { color: var(--accent); }
+        
+        .container { max-width: 850px; margin: 40px auto; padding: 0 20px; }
+        
+        .contacts-header {
+            background-color: var(--panel-bg);
+            padding: 30px;
+            border-radius: 8px;
+            border-left: 4px solid var(--accent-gold);
+            margin-bottom: 30px;
+        }
+        .contacts-header h1 { margin: 0 0 10px 0; font-size: 1.8rem; color: #fff; text-transform: uppercase; letter-spacing: 1px; }
+        .contacts-header p { margin: 5px 0; color: var(--text-muted); line-height: 1.5; }
+        .info-row { margin-top: 15px; color: var(--accent-gold); font-weight: bold; font-size: 0.95rem; }
+        
+        .form-card {
+            background-color: var(--panel-bg);
+            padding: 35px;
+            border-radius: 8px;
+            border: 1px solid rgba(0, 242, 254, 0.1);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+        .form-card h2 { margin-top: 0; font-size: 1.4rem; color: var(--accent); text-transform: uppercase; margin-bottom: 25px; letter-spacing: 0.5px; }
+        
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; margin-bottom: 8px; color: var(--text-muted); font-size: 0.9rem; font-weight: 500; }
+        
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            background-color: var(--bg-color);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 6px;
+            color: #fff;
+            font-size: 1rem;
+            box-sizing: border-box;
+            transition: border-color 0.3s;
+        }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+            border-color: var(--accent);
+            outline: none;
+        }
+        
+        .legal-notice {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            line-height: 1.4;
+            margin-bottom: 25px;
+            padding: 12px;
+            background-color: rgba(255,255,255,0.02);
+            border-radius: 4px;
+            border-left: 3px solid var(--error);
+        }
+        
+        button {
+            background: linear-gradient(90deg, #00c6ff 0%, #0072ff 100%);
+            color: #fff;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1rem;
+            font-weight: bold;
+            border-radius: 6px;
+            cursor: pointer;
+            width: 100%;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        button:hover { 
+            transform: scale(1.01);
+            box-shadow: 0 0 15px rgba(0, 198, 255, 0.4);
+        }
+        
+        footer { text-align: center; padding: 40px 20px; color: var(--text-muted); font-size: 0.85rem; margin-top: 60px; }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="index.html">Главная</a>
+        <a href="reforms.html">Реформы и Указы</a>
+        <a href="cabinet.html">Связаться с нами</a>
+    </nav>
+
+    <div class="container">
+        
+        <!-- Информационный блок контактов -->
+        <div class="contacts-header">
+            <h1>Центральная приемная обращения граждан и организаций</h1>
+            <p>Электронная приемная О-Банка принимает официальные запросы, отчетности кредитных организаций, а также жалобы на нарушение финансового законодательства.</p>
+            <div class="info-row">📍 Официальный адрес: Главное управление О-Банка, Литер А</div>
+            <div class="info-row">📧 Единая канцелярия: info@o-bank-gov.io (Используйте форму ниже)</div>
+        </div>
+
+        <!-- Форма отправки -->
+        <div class="form-card">
+            <h2>Форма отправки официального электронного документа</h2>
+            
+            <!-- ВНИМАНИЕ: Замените 'СВОЙ_ID' на уникальный буквенный код из Formspree -->
+            <form action="https://formspree.io" method="POST">
+                
+                <div class="form-group">
+                    <label>Отправитель (ФИО / Игровой Ник / Ваша Должность)</label>
+                    
+                </div>
+                
+                <div class="form-group">
+                    <label>Организация / Ведомство (Если применимо)</label>
+                    <input type="text" name="sender_organization" placeholder="Министерство финансов, Коммерческий Банк №1, Частное лицо">
+                </div>
+
+                <div class="form-group">
+                    <label>Электронный адрес для обратного ответа (Ваш Discord или Mail)</label>
+                    <input type="text" name="sender_contact" placeholder="Ваш_Ник#0000 или почта" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Кому адресовано обращение (Адресат в структуре О-Банка)</label>
+                    <select name="target_department" required>
+                        <option value="Правление: Заместителю Председателя О-Банка">Правлению: Заместителю Председателя О-Банка (Лично вам)</option>
+                        <option value="Департамент денежно-кредитной политики">Департаменту денежно-кредитной политики</option>
+                        <option value="Департамент национальной платежной системы и Финтеха">Департаменту Финтеха (По вопросам Цифрового Рубля)</option>
+                        <option value="Департамент банковского надзора">Департаменту банковского надзора (Жалобы на банки)</option>
+                        <option value="Общая канцелярия регулятора">Общей канцелярии О-Банка</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Тема электронного обращения</label>
+                    <input type="text" name="document_subject" placeholder="Суть обращения в одно предложение" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Текст официального документа / обращения</label>
+                    <textarea name="document_body" rows="7" placeholder="Напишите здесь развернутый текст вашего документа или суть проблемы..." required></textarea>
+                </div>
+
+                <div class="legal-notice">
+                    ВНИМАНИЕ! Направляя обращение, вы подтверждаете достоверность указанных данных. Попытка дезинформации государственного регулятора или отправка заведомо ложных сведений влечет за собой отзыв банковских лицензий или уголовное преследование в рамках законов государства.
+                </div>
+
+                <button type="submit">Подписать электронной подписью и отправить</button>
+            </form>
+        </div>
+    </div>
+
+    <footer>
+        &copy; 2026 О-Банк. Сервер шифрования защищен. Все входящие пакеты данных логируются.
+    </footer>
+
+</body>
+  </html>
+
