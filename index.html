@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -96,181 +94,292 @@
         .btn-to-top { background: none; border: none; color: #fff; font-size: 0.95rem; cursor: pointer; display: flex; align-items: center; gap: 8px; }
         .footer-address { font-size: 1.2rem; font-weight: bold; line-height: 1.4; margin-bottom: 25px; }
         .footer-phone-block { margin-bottom: 20px; }
+        .phone-num { font-size: 1.3rem; font-weight: bold; margin-bottom: 2px; }
+        .phone-desc { font-size: 0.85rem; color: rgba(255,255,255,0.6); line-height: 1.3; }
+        .social-row { display: flex; gap: 10px; margin: 25px 0 30px 0; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 25px; }
+        .social-icon { width: 36px; height: 36px; border-radius: 50%; background-color: rgba(255,255,255,0.1); text-align: center; line-height: 36px; color: #fff; font-size: 1rem; text-decoration: none; font-weight: bold; }
+        .footer-links-grid { display: flex; flex-direction: column; gap: 14px; margin-bottom: 30px; }
+        .footer-link-white { color: #ffffff; text-decoration: none; font-size: 0.95rem; font-weight: 500; line-height: 1.3; }
+        .footer-links-sub { display: flex; flex-direction: column; gap: 12px; margin-top: 15px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 25px; }
+        .footer-link-gray { color: rgba(255,255,255,0.6); text-decoration: none; font-size: 0.9rem; }
+        .footer-accessibility-row { background-color: rgba(255,255,255,0.05); margin: 25px -16px -20px -16px; padding: 15px 16px; display: flex; align-items: center; gap: 10px; font-size: 0.95rem; cursor: pointer; }
+        .footer-bottom-bar { background-color: var(--footer-bottom); color: rgba(255,255,255,0.5); padding: 20px 16px; font-size: 0.85rem; line-height: 1.5; }
+    </style>
+</head>
+<body>
 
-.phone-num { font-size: 1.3rem; font-weight: bold; margin-bottom: 2px; }
-.phone-desc { font-size: 0.85rem; color: rgba(255,255,255,0.6); line-height: 1.3; }
-.social-row { display: flex; gap: 10px; margin: 25px 0 30px 0; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 25px; }
-.social-icon { width: 36px; height: 36px; border-radius: 50%; background-color: rgba(255,255,255,0.1); text-align: center; line-height: 36px; color: #fff; font-size: 1rem; text-decoration: none; font-weight: bold; }
-.footer-links-grid { display: flex; flex-direction: column; gap: 14px; margin-bottom: 30px; }
-.footer-link-white { color: #ffffff; text-decoration: none; font-size: 0.95rem; font-weight: 500; line-height: 1.3; }
-.footer-links-sub { display: flex; flex-direction: column; gap: 12px; margin-top: 15px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 25px; }
-.footer-link-gray { color: rgba(255,255,255,0.6); text-decoration: none; font-size: 0.9rem; }
-.footer-accessibility-row { background-color: rgba(255,255,255,0.05); margin: 25px -16px -20px -16px; padding: 15px 16px; display: flex; align-items: center; gap: 10px; font-size: 0.95rem; cursor: pointer; }
-.footer-bottom-bar { background-color: var(--footer-bottom); color: rgba(255,255,255,0.5); padding: 20px 16px; font-size: 0.85rem; line-height: 1.5; }
+<header class="cbr-header">
+    <div class="header-left">
+        <button class="menu-btn" id="menuToggleBtn" onclick="toggleMenu()">☰</button>
+        <a href="#" class="logo-block">
+            <img src="https://www.cbr.ru/Content/images/logo.svg" alt="Logo">
+            <span>Банк О-Банк</span>
+        </a>
+    </div>
+    <div class="header-right">
+        <button class="icon-btn">🔍</button>
+        <button class="icon-btn" onclick="toggleAccessibility()">👓</button>
+    </div>
+</header>
 
+<div class="hamburger-overlay" id="hamburgerMenu">
+    <div class="lang-switch">RU  |  EN</div>
+    <a href="#" class="menu-top-link">Обратиться в О-Банк</a>
+    <a href="#" class="menu-top-link">Ключевые показатели</a>
+    <a href="#" class="menu-top-link">Осторожно: мошенники!</a>
 
+    <div class="menu-spoiler-bar" onclick="toggleMenuSpoiler('s1')"><span class="plus-icon" id="s1-p">+</span> Денежно-кредитная политика</div>
+    <div class="menu-spoiler-content" id="s1">Регулирование процентных ставок, таргетирование инфляции, стерилизация избыточной ликвидности Минфина.</div>
 
+    <div class="menu-spoiler-bar" onclick="toggleMenuSpoiler('s2')"><span class="plus-icon" id="s2-p">+</span> Финансовая стабильность</div>
+    <div class="menu-spoiler-content" id="s2">Мониторинг рисков системно значимых институтов, контроль крупных кредитов под приватизацию сырьевого сектора.</div>
 
-☰
+    <div class="menu-spoiler-bar" onclick="toggleMenuSpoiler('s3')"><span class="plus-icon" id="s3-p">+</span> Национальная платежная система</div>
+    <div class="menu-spoiler-content" id="s3">Регулирование клиринговых центров, обеспечение непрерывности межбанковских транзакций.</div>
 
+    <div class="menu-spoiler-bar" onclick="toggleMenuSpoiler('s4')"><span class="plus-icon" id="s4-p">+</span> Наличное денежное обращение</div>
+    <div class="menu-spoiler-content" id="s4">Организация эмиссии, инкассации и экспертизы подлинности банкнот О-Банка.</div>
 
-Банк О-Банк
+    <div class="menu-spoiler-bar" onclick="toggleMenuSpoiler('s5')"><span class="plus-icon" id="s5-p">+</span> Развитие финансового рынка</div>
+    <div class="menu-spoiler-content" id="s5">Подготовка Московской биржи к проведению Народных IPO и сделок по денационализации ресурсов.</div>
 
+    <div class="menu-spoiler-bar" onclick="toggleMenuSpoiler('s6')"><span class="plus-icon" id="s6-p">+</span> Развитие финансовых технологий</div>
+    <div class="menu-spoiler-content" id="s6">Куратор реформы ЦР (Зампред Правления). Проектирование и поддержка архитектуры Цифрового Рубля на базе блокчейна.</div>
 
+    <div class="menu-spoiler-bar" onclick="toggleMenuSpoiler('s7')"><span class="plus-icon" id="s7-p">+</span> Информационная безопасность</div>
+    <div class="menu-spoiler-content" id="s7">Защита банковских шлюзов и кошельков цифрового рубля от хакерских кибератак.</div>
 
-🔍
-👓
+    <div class="menu-spoiler-bar" onclick="toggleMenuSpoiler('s8')"><span class="plus-icon" id="s8-p">+</span> Противодействие отмыванию денег</div>
+    <div class="menu-spoiler-content" id="s8">Валютный надзор и контроль транзакций в процессе денационализации ресурсов.</div>
 
+    <div class="menu-spoiler-bar" onclick="toggleMenuSpoiler('s9')"><span class="plus-icon" id="s9-p">+</span> Удостоверяющий центр О-Банка</div>
+    <div class="menu-spoiler-content" id="s9">Выдача электронных цифровых подписей (ЭЦП) для легального участия в приватизационных сделках.</div>
 
-RU  |  EN
-Обратиться в О-Банк
-Ключевые показатели
-Осторожно: мошенники!
-+ Денежно-кредитная политика
-Регулирование процентных ставок, таргетирование инфляции, стерилизация избыточной ликвидности Минфина.
-+ Финансовая стабильность
-Мониторинг рисков системно значимых институтов, контроль крупных кредитов под приватизацию сырьевого сектора.
-+ Национальная платежная система
-Регулирование клиринговых центров, обеспечение непрерывности межбанковских транзакций.
-+ Наличное денежное обращение
-Организация эмиссии, инкассации и экспертизы подлинности банкнот О-Банка.
-+ Развитие финансового рынка
-Подготовка Московской биржи к проведению Народных IPO и сделок по денационализации ресурсов.
-+ Развитие финансовых технологий
-Куратор реформы ЦР (Зампред Правления). Проектирование и поддержка архитектуры Цифрового Рубля на базе блокчейна.
-+ Информационная безопасность
-Защита банковских шлюзов и кошельков цифрового рубля от хакерских кибератак.
-+ Противодействие отмыванию денег
-Валютный надзор и контроль транзакций в процессе денационализации ресурсов.
-+ Удостоверяющий центр О-Банка
-Выдача электронных цифровых подписей (ЭЦП) для легального участия в приватизационных сделках.
-+ Технические ресурсы
-API-шлюзы для автоматического обновления курсов валют коммерческими банками.
-Меры защиты финансового рынка
+    <div class="menu-spoiler-bar" onclick="toggleMenuSpoiler('s10')"><span class="plus-icon" id="s10-p">+</span> Технические ресурсы</div>
+    <div class="menu-spoiler-content" id="s10">API-шлюзы для автоматического обновления курсов валют коммерческими банками.</div>
 
-Новости
-Решения О-Банка
-Параметры операций О-Банка
-Статистика и Аналитика
-Документы среднесрочного планирования
-Реестры (Лицензии банков)
-Контактная информация приемной
-Карта сайта
-О Банке О-Банк
-Правовой статус и функции
-Национальный финансовый совет
-Совет директоров О-Банка (Председатель и Зампред)
-Организационная структура (15 департаментов)
-Международное сотрудничество
-Издания О-Банка
-Вопросы и ответы (FAQ)
-Проверить участника финансового рынка
-Проверка уровня риска на платформе «Знай своего клиента»
-Список компаний с признаками нелегальной деятельности
-Конструктор оценки деловой репутации
+    <div class="menu-sub-section">
+        <a href="#" class="menu-sub-link">Меры защиты финансового рынка</a>
+        <a href="#" class="menu-sub-link">Новости</a>
+        <a href="#" class="menu-nested-link">Решения О-Банка</a>
+        <a href="#" class="menu-nested-link">Параметры операций О-Банка</a>
+        <a href="#" class="menu-sub-link">Статистика и Аналитика</a>
+        <a href="#" class="menu-sub-link">Документы среднесрочного планирования</a>
+        <a href="#" class="menu-sub-link">Реестры (Лицензии банков)</a>
+        <a href="#" class="menu-sub-link">Контактная информация приемной</a>
+        <a href="#" class="menu-sub-link">Карта сайта</a>
+    </div>
 
+    <div class="menu-sub-section">
+        <div class="menu-sub-link">О Банке О-Банк</div>
+        <a href="#" class="menu-nested-link">Правовой статус и функции</a>
+        <a href="#" class="menu-nested-link">Национальный финансовый совет</a>
+        <a href="#" class="menu-nested-link">Совет директоров О-Банка (Председатель и Зампред)</a>
+        <a href="#" class="menu-nested-link">Организационная структура (15 департаментов)</a>
+        <a href="#" class="menu-nested-link">Международное сотрудничество</a>
+        <a href="#" class="menu-nested-link">Издания О-Банка</a>
+        <a href="#" class="menu-nested-link">Вопросы и ответы (FAQ)</a>
+    </div>
 
+    <div class="menu-sub-section">
+        <div class="menu-sub-link">Проверить участника финансового рынка</div>
+        <a href="#" class="menu-nested-link">Проверка уровня риска на платформе «Знай своего клиента»</a>
+        <a href="#" class="menu-nested-link">Список компаний с признаками нелегальной деятельности</a>
+        <a href="#" class="menu-nested-link">Конструктор оценки деловой репутации</a>
+    </div>
+</div>
 
-Финансовый конгресс О-Банка
-№ 2, Июль 2026
+<section class="cbr-banner">
+    <h1 class="banner-title">Финансовый конгресс О-Банка</h1>
+    <p class="banner-sub">№ 2, Июль 2026</p>
+    <div class="banner-circle"></div>
+    <div class="banner-dots">
+        <div class="dot active"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+    </div>
+</section>
 
+<div class="container">
+    <div class="macro-row">
+        <div class="macro-info">
+            <div class="macro-title">Цель по инфляции</div>
+        </div>
+        <div class="macro-val">4,0%</div>
+    </div>
+    <div class="macro-row">
+        <div class="macro-info">
+            <div class="macro-title">Инфляция <span>май 2026</span></div>
+        </div>
+        <div class="macro-val">5,3%</div>
+    </div>
+    <div class="macro-row">
+        <div class="macro-info">
+            <div class="macro-title">Ключевая ставка<span>с 22.06.2026</span></div>
+        </div>
+        <div class="macro-val">16,00%</div>
+    </div>
+    <div class="macro-row" style="background: #fdf2f2; margin: 0 -16px; padding: 16px;">
+        <div class="macro-info">
+            <div class="macro-title" style="font-weight: bold;">Курс ЦР (Цифровой рубль)</div>
+            <div class="macro-date">на базе блокчейн-сетей</div>
+        </div>
+        <div class="macro-val" style="color: #e60012;">1,00 Р</div>
+    </div>
 
-Цель по инфляции
-4,0%
+    <div class="currency-header">
+        <div class="currency-title">Курсы валют</div>
+        <div class="currency-dates">
+            <span>01.07.2026</span>
+            <span>02.07.2026</span>
+        </div>
+    </div>
 
+    <div class="currency-item">
+        <div class="currency-meta">
+            <div class="currency-badge" style="background-color: #de2110;">¥</div>
+            <div class="currency-name">CNY, 1 ¥</div>
+        </div>
+        <div class="currency-values">
+            <div class="cur-val">11,4932 Р</div>
+            <div class="cur-val">11,4842 Р</div>
+        </div>
+    </div>
+    <div class="currency-item">
+        <div class="currency-meta">
+            <div class="currency-badge" style="background-color: #00247d;">$</div>
+            <div class="currency-name">USD, 1 $</div>
+        </div>
+        <div class="currency-values">
+            <div class="cur-val">78,2696 Р</div>
+            <div class="cur-val">78,2652 Р</div>
+        </div>
+    </div>
+    <div class="currency-item">
+        <div class="currency-meta">
+            <div class="currency-badge" style="background-color: #003399;">€</div>
+            <div class="currency-name">EUR, 1 €</div>
+        </div>
+        <div class="currency-values">
+            <div class="cur-val">89,2743 Р</div>
+            <div class="cur-val">89,1754 Р</div>
+        </div>
+    </div>
 
-Инфляция iмай 2026
-5,3%
+    <a href="#" class="btn-outline-full">
+        <span>Все показатели</span>
+        <div class="grid-icon"><div></div><div></div><div></div><div></div></div>
+    </a>
 
+    <div class="tabs-row">
+        <div class="tab-btn active">Новости</div>
+        <div class="tab-btn">Новое на сайте</div>
+    </div>
 
-Ключевая ставкас 22.06.2026
-16,00%
+    <a href="#" class="all-news-link">Все новости ›</a>
 
+    <div class="search-container">
+        <input type="text" class="search-input" class="search-input" placeholder="Поиск по новостям">
+    </div>
 
-Курс ЦР (Цифровой рубль)на базе блокчейн-сетей
-1,00 Р
+    <div class="filters-row">
+        <div class="filter-select"><span>Выберите период</span>За все время</div>
+        <div class="filter-select"><span>Выберите тип</span>Все</div>
+    </div>
 
-Курсы валют
-01.07.202602.07.2026
+    <div class="news-block">
+        <div class="news-meta">Сегодня <span class="tag-red">Пресс-релиз</span></div>
+        <a href="#" class="news-headline">Результаты мониторинга максимальных процентных ставок кредитных организаций по приватизационным спецсчетам</a>
+    </div>
+        <div class="news-block">
+        <div class="news-meta">01 июля 2026 <span>Новости</span></div>
+        <a href="#" class="news-headline">Правление О-Банка публикует подробное Резюме обсуждения параметров эмиссии Цифрового Рубля</a>
+    </div>
 
+    <button class="btn-load-more">Загрузить еще</button>
 
-¥CNY, 1 ¥
-11,4932 Р11,4842 Р
+    <h2 class="section-title">Важное</h2>
+    <div class="important-grid">
+        <a href="#" class="important-card">
+            <div class="card-icon-circle">📋</div>
+            <div class="card-text">Реестр коммерческих банков</div>
+        </a>
+        <a href="#" class="important-card">
+            <div class="card-icon-circle">📅</div>
+            <div class="card-text">Дорожная карта реформ</div>
+        </a>
+    </div>
 
+    <h2 class="section-title">Проекты О-Банка</h2>
+    <div class="projects-list">
+        <a href="#" class="project-card">
+            <div class="project-top">
+                <div class="project-logo-circle" style="background-color: #0056b3;">Р</div>
+                <div class="project-name">Финансовая культура</div>
+            </div>
+            <p class="project-desc">Просветительский проект О-Банка о бережном отношении к государственным финансам.</p>
+        </a>
+        <a href="#" class="project-card">
+            <div class="project-top">
+                <div class="project-logo-circle" style="background-color: #e60012;">Ц</div>
+                <div class="project-name">ЦБ онлайн (Цифровой рубль)</div>
+            </div>
+            <p class="project-desc">Цифровой защищенный кошелек для расчетов на базе платформы О-Банка.</p>
+        </a>
+    </div>
 
-$USD, 1 $
-78,2696 Р78,2652 Р
+    <div style="background-color: #fff9e6; padding: 25px 20px; border-radius: 4px; margin-bottom: 30px;">
+        <img src="https://www.cbr.ru/Content/images/placeholder.png" alt="Safety" class="security-banner">
+        <h3 class="security-title">Как защитить свои сбережения от мошенников</h3>
+        <p class="security-desc">Правление О-Банка раскрывает схемы обмана с цифровыми кошельками и дает рекомендации гражданскому сектору.</p>
+        <a href="#" class="btn-outline-full" style="margin: 0; width: auto; display: inline-flex; padding: 12px 25px;">Защититься</a>
+    </div>
+</div>
 
+<footer class="cbr-footer">
+    <div class="footer-top-row">
+        <div class="footer-logo">Банк О-Банк</div>
+        <button class="btn-to-top" onclick="window.scrollTo(0,0)">Наверх ↑</button>
+    </div>
+    <div class="footer-address">г. Санкт-Петербург, ул. Неглинная, д. 12, Главный штаб О-Банка</div>
+    <div class="footer-phone-block">
+        <div class="phone-num">+7 (906) 581-59-40</div>
+        <div class="phone-desc">(официальный защищенный канал связи канцелярии Зампреда)</div>
+    </div>
+    <div class="social-row">
+        <a href="#" class="social-icon">VK</a>
+        <a href="#" class="social-icon">TG</a>
+    </div>
+    <div class="footer-links-grid">
+        <a href="#" class="footer-link-white">Личный кабинет участника информационного обмена</a>
+        <a href="#" class="footer-link-white">Перечень инсайдерской информации О-Банка</a>
+        <a href="#" class="footer-link-white">Официальное опубликование нормативных актов</a>
+    </div>
+    <div class="footer-accessibility-row" onclick="toggleAccessibility()">
+        <span>👓</span> Версия для слабовидящих
+    </div>
+    <div class="footer-links-sub">
+        <a href="#" class="footer-link-gray">© О-Банк, 2000–2026. ОГРН: 1037700000777.</a>
+        <a href="#" class="footer-link-gray">Дизайн сайта — aic.</a>
+    </div>
+</footer>
 
-€EUR, 1 €
-89,2743 Р89,1754 Р
-Все показатели
-
-НовостиНовое на сайте
-Все новости ›
-
-
-Выберите периодЗа все время
-Выберите типВсе
-
-
-Сегодня Пресс-релиз
-Результаты мониторинга максимальных процентных ставок кредитных организаций по приватизационным спецсчетам
-
-
-01 июля 2026 Новости
-Правление О-Банка публикует подробное Резюме обсуждения параметров эмиссии Цифрового Рубля
-
-Загрузить еще
-Важное
-
-📋Реестр коммерческих банков
-📅Дорожная карта реформ
-Проекты О-Банка
-
-
-РФинансовая культура
-Просветительский проект О-Банка о бережном отношении к государственным финансам.
-
-
-ЦЦБ онлайн (Цифровой рубль)
-Цифровой защищенный кошелек для расчетов на базе платформы О-Банка.
-
-
-
-Как защитить свои сбережения от мошенников
-Правление О-Банка раскрывает схемы обмана с цифровыми кошельками и дает рекомендации гражданскому сектору.
-Защититься
-
-
-Банк О-БанкНаверх ↑
-г. Санкт-Петербург, ул. Неглинная, д. 12, Главный штаб О-Банка
-+7 (906) 581-59-40(официальный защищенный канал связи канцелярии Зампреда)
-VKTG
-
-Личный кабинет участника информационного обмена
-Перечень инсайдерской информации О-Банка
-Официальное опубликование нормативных актов
-
-👓 Версия для слабовидящих
-
-© О-Банк, 2000–2026. ОГРН: 1037700000777.
-Дизайн сайта — aic.
-
+<script>
 function toggleMenu() {
-let menu = document.getElementById('hamburgerMenu');
-let btn = document.getElementById('menuToggleBtn');
-menu.classList.toggle('active');
-btn.innerHTML = menu.classList.contains('active') ? '✕' : '☰';
+    let menu = document.getElementById('hamburgerMenu');
+    let btn = document.getElementById('menuToggleBtn');
+    menu.classList.toggle('active');
+    btn.innerHTML = menu.classList.contains('active') ? '✕' : '☰';
 }
 function toggleMenuSpoiler(id) {
-let content = document.getElementById(id);
-let plus = document.getElementById(id + '-p');
-content.classList.toggle('active');
-plus.innerHTML = content.classList.contains('active') ? '−' : '+';
+    let content = document.getElementById(id);
+    let plus = document.getElementById(id + '-p');
+    content.classList.toggle('active');
+    plus.innerHTML = content.classList.contains('active') ? '−' : '+';
 }
-function toggleAccessibility() { document.body.classList.toggle('accessible-mode'); }
-
-
-
-        
+function toggleAccessibility() { 
+    document.body.classList.toggle('accessible-mode'); 
+}
+</script>
+</body>
+</html>
