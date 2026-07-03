@@ -1,0 +1,353 @@
+<!--
+================================================================
+  О-БАНК :: Callback авторизации Discord OAuth2
+  Обработка возврата после входа через Discord
+================================================================
+-->
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Авторизация | О-Банк</title>
+    <link rel="icon" type="image/png" href="assets/logo.png">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0D2B4E;
+            --accent: #C8102E;
+            --success: #00A651;
+            --bg: #F5F7FA;
+            --text: #1A1A1A;
+            --text-muted: #6B7280;
+            --border: #E5E7EB;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, var(--primary) 0%, #08203d 100%);
+            min-height: 100vh;
+            display: grid;
+            place-items: center;
+            padding: 20px;
+            color: var(--text);
+        }
+        .card {
+            background: #fff;
+            border-radius: 20px;
+            padding: 48px 40px;
+            max-width: 460px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: slideIn 0.4s ease-out;
+        }
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .logo {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 24px;
+            background: #fff;
+            border: 2px solid var(--border);
+            border-radius: 16px;
+            padding: 8px;
+            box-sizing: border-box;
+        }
+        .logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            display: block;
+        }
+        .status-icon {
+            font-size: 56px;
+            margin-bottom: 20px;
+            display: inline-block;
+            animation: pulse 1.5s infinite ease-in-out;
+        }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        h1 {
+            font-family: 'Manrope', sans-serif;
+            font-size: 26px;
+            color: var(--primary);
+            margin-bottom: 12px;
+            font-weight: 800;
+        }
+        p {
+            color: var(--text-muted);
+            font-size: 15px;
+            line-height: 1.6;
+            margin-bottom: 24px;
+        }
+        .loader {
+            width: 44px;
+            height: 44px;
+            border: 4px solid var(--border);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            margin: 24px auto;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .details {
+            background: var(--bg);
+            border-radius: 12px;
+            padding: 16px;
+            margin: 20px 0;
+            font-size: 13px;
+            color: var(--text-muted);
+            font-family: 'Courier New', monospace;
+            word-break: break-all;
+            text-align: left;
+            max-height: 100px;
+            overflow-y: auto;
+        }
+        .btn {
+            display: inline-block;
+            padding: 14px 32px;
+            background: var(--primary);
+            color: #fff;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 15px;
+            transition: all 0.2s;
+            border: none;
+            cursor: pointer;
+            font-family: inherit;
+            margin: 4px;
+        }
+        .btn:hover {
+            background: #1a4275;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(13, 43, 78, 0.3);
+        }
+        .btn-secondary {
+            background: transparent;
+            color: var(--primary);
+            border: 2px solid var(--border);
+        }
+        .btn-secondary:hover {
+            background: var(--bg);
+            box-shadow: none;
+            transform: none;
+        }
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 16px;
+            background: var(--bg);
+            border-radius: 12px;
+            margin: 20px 0;
+            text-align: left;
+        }
+        .user-avatar {
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            border: 2px solid var(--primary);
+        }
+        .user-details { flex: 1; }
+        .user-name {
+            font-weight: 700;
+            color: var(--primary);
+            font-size: 16px;
+        }
+        .user-id {
+            font-size: 12px;
+            color: var(--text-muted);
+            font-family: 'Courier New', monospace;
+        }
+        .hidden { display: none !important; }
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            background: rgba(0, 166, 81, 0.1);
+            color: var(--success);
+            border-radius: 100px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-top: 4px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <div class="logo">
+        <img src="assets/logo.png" alt="О-Банк">
+    </div>
+
+    <!-- Состояние: Загрузка -->
+    <div id="stateLoading">
+        <div class="status-icon">🔐</div>
+        <h1>Авторизация...</h1>
+        <p>Проверяем ваши данные через Discord.<br>Пожалуйста, подождите.</p>
+        <div class="loader"></div>
+    </div>
+
+    <!-- Состояние: Успех -->
+    <div id="stateSuccess" class="hidden">
+        <div class="status-icon">✅</div>
+        <h1>Добро пожаловать!</h1>
+        <p>Вы успешно вошли в систему О-Банка.</p>
+        <div class="user-info">
+            <img id="userAvatar" class="user-avatar" src="assets/logo.png" alt="Аватар">
+            <div class="user-details">
+                <div class="user-name" id="userName">Загрузка...</div>
+                <div class="user-id" id="userId">—</div>
+                <span class="badge" id="userRole">Гражданин</span>
+            </div>
+        </div>
+        <a href="cabinet.html" class="btn">Перейти в кабинет →</a>
+    </div>
+
+    <!-- Состояние: Ошибка -->
+    <div id="stateError" class="hidden">
+        <div class="status-icon">❌</div>
+        <h1>Ошибка авторизации</h1>
+        <p id="errorMessage">Не удалось выполнить вход через Discord. Попробуйте ещё раз.</p>
+        <div class="details" id="errorDetails"></div>
+        <a href="index.html" class="btn">На главную</a>
+        <a href="index.html" class="btn btn-secondary">Попробовать снова</a>
+    </div>
+
+</div>
+
+<script>
+(function() {
+    'use strict';
+
+    // ===== Разбор URL =====
+    const params = new URLSearchParams(window.location.search);
+    const hashParams = new URLSearchParams(window.location.hash.substring(1));
+
+    const code = params.get('code');
+    const error = params.get('error') || hashParams.get('error');
+    const errorDesc = params.get('error_description') || hashParams.get('error_description');
+    const accessToken = hashParams.get('access_token');
+
+    // ===== Функции показа состояний =====
+    function showState(stateId) {
+        document.getElementById('stateLoading').classList.add('hidden');
+        document.getElementById('stateSuccess').classList.add('hidden');
+        document.getElementById('stateError').classList.add('hidden');
+        document.getElementById(stateId).classList.remove('hidden');
+    }
+
+    function showError(msg, details) {
+        showState('stateError');
+        document.getElementById('errorMessage').textContent = msg;
+        if (details) {
+            document.getElementById('errorDetails').textContent = details;
+        }
+    }
+
+    // ===== Обработка ошибок Discord =====
+    if (error) {
+        let msg = 'Не удалось выполнить вход через Discord.';
+        if (error === 'access_denied') {
+            msg = 'Вы отменили вход через Discord.';
+        }
+        showError(msg, errorDesc || error);
+        return;
+    }
+
+    // ===== Обработка через implicit flow (access_token в hash) =====
+    if (accessToken) {
+        fetchUserData(accessToken);
+        return;
+    }
+
+    // ===== Обработка через authorization code (нужен бэкенд) =====
+    if (code) {
+        // Пока бэкенда нет — показываем что код получен
+        showError(
+            'Обработка авторизации через код будет доступна после запуска бэкенда.',
+            'Получен код: ' + code.substring(0, 20) + '...'
+        );
+        return;
+    }
+
+    // ===== Ничего не получено =====
+    showError(
+        'Прямой доступ к странице авторизации запрещён.',
+        'Используйте кнопку "Войти" на главной странице.'
+    );
+
+    // ===== Функция загрузки данных пользователя из Discord API =====
+    async function fetchUserData(token) {
+        try {
+            const response = await fetch('https://discord.com/api/users/@me', {
+                headers: {
+                    'Authorization': 'Bearer ' + token
+                }
+            });
+
+            if (!response.ok) {
+                throw new Error('HTTP ' + response.status);
+            }
+
+            const user = await response.json();
+
+            // Сохраняем данные в localStorage
+            localStorage.setItem('obank_user', JSON.stringify(user));
+            localStorage.setItem('obank_token', token);
+            localStorage.setItem('obank_login_time', new Date().toISOString());
+
+            // Показываем данные пользователя
+            showState('stateSuccess');
+            document.getElementById('userName').textContent = 
+                user.global_name || user.username || 'Пользователь';
+            document.getElementById('userId').textContent = 'ID: ' + user.id;
+
+            // Аватарка
+            if (user.avatar) {
+                const ext = user.avatar.startsWith('a_') ? 'gif' : 'png';
+                document.getElementById('userAvatar').src = 
+                    `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.${ext}?size=128`;
+            }
+
+            // Определение роли (пока по Discord ID директора/сотрудников)
+            // TODO: подключить проверку через бота
+            const employeeIds = []; // сюда потом добавим ID сотрудников
+            const directorIds = []; // сюда потом добавим ID директора
+            
+            const badge = document.getElementById('userRole');
+            if (directorIds.includes(user.id)) {
+                badge.textContent = '🎩 Директор';
+                badge.style.background = 'rgba(200, 16, 46, 0.1)';
+                badge.style.color = '#C8102E';
+            } else if (employeeIds.includes(user.id)) {
+                badge.textContent = '👔 Сотрудник О-Банка';
+                badge.style.background = 'rgba(13, 43, 78, 0.1)';
+                badge.style.color = '#0D2B4E';
+            } else {
+                badge.textContent = '👤 Гражданин';
+            }
+
+            // Автоматический переход в кабинет через 3 секунды
+            setTimeout(() => {
+                window.location.href = 'cabinet.html';
+            }, 3000);
+
+        } catch (err) {
+            showError(
+                'Не удалось получить данные из Discord.',
+                'Ошибка: ' + err.message
+            );
+        }
+    }
+})();
+</script>
+
+</body>
+</html>
