@@ -1,10 +1,21 @@
+<!--
+================================================================
+  О-БАНК :: Орловский государственный банк
+  Официальный сайт Центрального Банка Государства
+  © 2000–2026. Все права защищены.
+================================================================
+-->
 <!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Центральный Банк Государства О-Банк — официальный цифровой сервис">
+    <meta name="description" content="О-Банк — Центральный Банк Государства. Официальный цифровой сервис.">
+    <meta name="author" content="Орловский государственный банк">
+    <meta name="keywords" content="О-Банк, ЦБ, банк, кредиты, вклады, Санкт-Петербург">
     <title>О-Банк | Центральный Банк Государства</title>
+    <link rel="icon" type="image/png" href="assets/logo.png">
+    <link rel="apple-touch-icon" href="assets/logo.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
@@ -54,13 +65,19 @@
         }
         .logo { display: flex; align-items: center; gap: 12px; }
         .logo-icon {
-            width: 42px; height: 42px;
-            background: var(--primary);
-            color: #fff;
+            width: 44px; height: 44px;
+            background: #fff;
             border-radius: 10px;
             display: grid; place-items: center;
-            font-size: 22px; font-weight: 800;
-            font-family: 'Manrope', sans-serif;
+            overflow: hidden;
+            padding: 4px;
+            box-sizing: border-box;
+            border: 1px solid var(--border);
+        }
+        .logo-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
         }
         .logo-text { display: flex; flex-direction: column; line-height: 1.1; }
         .logo-name { font-family: 'Manrope', sans-serif; font-weight: 800; font-size: 18px; color: var(--primary); }
@@ -332,6 +349,13 @@
             color: #fff;
             font-size: 22px;
             margin-bottom: 12px;
+            display: flex; align-items: center; gap: 10px;
+        }
+        .footer-brand h3 img {
+            width: 32px; height: 32px;
+            background: #fff;
+            padding: 3px;
+            border-radius: 6px;
         }
         .footer-brand p { font-size: 14px; margin-bottom: 20px; max-width: 380px; }
         .footer-contact { font-size: 14px; line-height: 1.8; }
@@ -359,6 +383,14 @@
             color: rgba(255, 255, 255, 0.5);
         }
         @media (max-width: 768px) { .footer-bottom { flex-direction: column; gap: 10px; text-align: center; } }
+        .footer-easter {
+            text-align: center;
+            padding: 12px 0 0;
+            font-size: 10px;
+            color: rgba(255, 255, 255, 0.25);
+            letter-spacing: 0.5px;
+            font-style: italic;
+        }
 
         /* MODAL */
         .modal-overlay {
@@ -398,7 +430,7 @@
         /* MOBILE */
         @media (max-width: 640px) {
             .header-inner { padding: 12px 0; }
-            .logo-icon { width: 38px; height: 38px; font-size: 18px; }
+            .logo-icon { width: 40px; height: 40px; }
             .logo-name { font-size: 15px; }
             .logo-sub { font-size: 10px; }
             .btn-login span { display: none; }
@@ -414,8 +446,8 @@
 
 <header class="header">
     <div class="container header-inner">
-        <a href="#" class="logo">
-            <div class="logo-icon">О</div>
+        <a href="#" class="logo" title="Орловский государственный банк">
+            <div class="logo-icon"><img src="assets/logo.png" alt="О-Банк"></div>
             <div class="logo-text">
                 <div class="logo-name">О-БАНК</div>
                 <div class="logo-sub">Центральный Банк</div>
@@ -463,12 +495,12 @@
         <div class="indicator">
             <div class="ind-label">USD</div>
             <div class="ind-value">78,27 ₽</div>
-            <div class="ind-date">02.07.2026</div>
+            <div class="ind-date">03.07.2026</div>
         </div>
         <div class="indicator">
             <div class="ind-label">EUR</div>
             <div class="ind-value">89,27 ₽</div>
-            <div class="ind-date">02.07.2026</div>
+            <div class="ind-date">03.07.2026</div>
         </div>
     </div>
 </div>
@@ -567,7 +599,7 @@
     <div class="container">
         <div class="footer-grid">
             <div class="footer-brand">
-                <h3>🏦 О-БАНК</h3>
+                <h3><img src="assets/logo.png" alt="О-Банк"> О-БАНК</h3>
                 <p>Центральный Банк Государства. Обеспечиваем финансовую стабильность и цифровое развитие банковской системы.</p>
                 <div class="footer-contact">
                     <strong>📍 Санкт-Петербург, ул. Неглинная, д. 12</strong><br>
@@ -598,8 +630,9 @@
         </div>
         <div class="footer-bottom">
             <div>© О-Банк, 2000–2026. Все права защищены.</div>
-            <div>Обновлено: 02.07.2026</div>
+            <div>Обновлено: 03.07.2026</div>
         </div>
+        <div class="footer-easter">Орловский государственный банк · Финансовая опора Государства</div>
     </div>
 </footer>
 
@@ -621,7 +654,6 @@
             document.getElementById('modal').classList.remove('active');
         }
     }
-    // Определение статуса работы банка
     function updateWorkStatus() {
         const now = new Date();
         const mskOffset = 3 * 60;
@@ -653,4 +685,4 @@
 </script>
 
 </body>
-</html>
+    </html>
