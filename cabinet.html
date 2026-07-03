@@ -1,0 +1,583 @@
+<!--
+================================================================
+  О-БАНК :: Личный кабинет
+  Главная страница для авторизованных пользователей
+================================================================
+-->
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Личный кабинет | О-Банк</title>
+    <link rel="icon" type="image/png" href="assets/logo.png">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0D2B4E;
+            --primary-light: #1a4275;
+            --accent: #C8102E;
+            --success: #00A651;
+            --warning: #F59E0B;
+            --bg: #F5F7FA;
+            --bg-card: #FFFFFF;
+            --text: #1A1A1A;
+            --text-muted: #6B7280;
+            --border: #E5E7EB;
+            --radius: 12px;
+            --radius-lg: 16px;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
+        }
+        h1, h2, h3, h4 { font-family: 'Manrope', sans-serif; font-weight: 700; letter-spacing: -0.02em; }
+        a { color: inherit; text-decoration: none; }
+        button { font-family: inherit; cursor: pointer; border: none; background: none; }
+        img { max-width: 100%; display: block; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        
+        /* HEADER */
+        .header {
+            background: #fff;
+            border-bottom: 1px solid var(--border);
+            position: sticky; top: 0; z-index: 100;
+        }
+        .header-inner {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 14px 0;
+        }
+        .logo { display: flex; align-items: center; gap: 12px; }
+        .logo-icon {
+            width: 40px; height: 40px;
+            background: #fff;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 3px;
+        }
+        .logo-icon img { width: 100%; height: 100%; object-fit: contain; }
+        .logo-text { display: flex; flex-direction: column; line-height: 1.1; }
+        .logo-name { font-weight: 800; font-size: 16px; color: var(--primary); font-family: 'Manrope', sans-serif; }
+        .logo-sub { font-size: 10px; color: var(--text-muted); font-weight: 500; }
+        .header-user {
+            display: flex; align-items: center; gap: 12px;
+            padding: 6px 14px 6px 6px;
+            background: var(--bg);
+            border-radius: 100px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .header-user:hover { background: var(--border); }
+        .header-avatar {
+            width: 32px; height: 32px;
+            border-radius: 50%;
+            border: 2px solid var(--primary);
+        }
+        .header-name { font-size: 14px; font-weight: 600; }
+        
+        /* MAIN */
+        .main { padding: 30px 0 60px; }
+        
+        /* PROFILE CARD */
+        .profile-card {
+            background: linear-gradient(135deg, var(--primary) 0%, #08203d 100%);
+            color: #fff;
+            border-radius: var(--radius-lg);
+            padding: 32px;
+            margin-bottom: 24px;
+            position: relative;
+            overflow: hidden;
+        }
+        .profile-card::before {
+            content: '';
+            position: absolute;
+            top: -80px; right: -80px;
+            width: 250px; height: 250px;
+            background: radial-gradient(circle, rgba(200, 16, 46, 0.15), transparent 70%);
+            border-radius: 50%;
+        }
+        .profile-inner {
+            position: relative; z-index: 1;
+            display: flex; align-items: center; gap: 24px;
+            flex-wrap: wrap;
+        }
+        .profile-avatar {
+            width: 100px; height: 100px;
+            border-radius: 50%;
+            border: 4px solid rgba(255, 255, 255, 0.2);
+            background: #fff;
+        }
+        .profile-info { flex: 1; min-width: 200px; }
+        .profile-name {
+            font-size: 26px;
+            font-weight: 800;
+            margin-bottom: 6px;
+        }
+        .profile-id {
+            font-size: 13px;
+            opacity: 0.7;
+            font-family: 'Courier New', monospace;
+            margin-bottom: 12px;
+        }
+        .profile-role {
+            display: inline-block;
+            padding: 6px 14px;
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 100px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .role-director { background: rgba(200, 16, 46, 0.3); border-color: rgba(200, 16, 46, 0.5); }
+        .role-employee { background: rgba(0, 166, 81, 0.3); border-color: rgba(0, 166, 81, 0.5); }
+        
+        /* STATS GRID */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        .stat-card {
+            background: #fff;
+            border-radius: var(--radius);
+            padding: 20px;
+            border: 1px solid var(--border);
+        }
+        .stat-label {
+            font-size: 12px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        .stat-value {
+            font-family: 'Manrope', sans-serif;
+            font-size: 26px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+        .stat-sub {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+        
+        /* SECTIONS */
+        .section {
+            background: #fff;
+            border-radius: var(--radius-lg);
+            padding: 28px;
+            margin-bottom: 20px;
+            border: 1px solid var(--border);
+        }
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .section-title {
+            font-size: 20px;
+            color: var(--primary);
+        }
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 18px;
+            background: var(--primary);
+            color: #fff;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+            font-family: inherit;
+            text-decoration: none;
+        }
+        .btn:hover {
+            background: var(--primary-light);
+            transform: translateY(-1px);
+        }
+        .btn-outline {
+            background: transparent;
+            color: var(--primary);
+            border: 1px solid var(--border);
+        }
+        .btn-outline:hover {
+            background: var(--bg);
+        }
+        .btn-danger {
+            background: var(--accent);
+        }
+        .btn-danger:hover {
+            background: #a00d24;
+        }
+        
+        /* EMPTY STATE */
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--text-muted);
+        }
+        .empty-icon {
+            font-size: 48px;
+            margin-bottom: 12px;
+            opacity: 0.5;
+        }
+        .empty-text {
+            font-size: 14px;
+            margin-bottom: 16px;
+        }
+        
+        /* SERVICES GRID */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 14px;
+        }
+        .service-btn {
+            padding: 20px 16px;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .service-btn:hover {
+            background: #fff;
+            border-color: var(--primary);
+            transform: translateY(-2px);
+        }
+        .service-btn-icon {
+            font-size: 28px;
+            margin-bottom: 8px;
+        }
+        .service-btn-name {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--primary);
+        }
+        .service-btn-status {
+            font-size: 10px;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+        
+        /* LOADING */
+        .loading-screen {
+            position: fixed;
+            inset: 0;
+            background: var(--bg);
+            display: grid;
+            place-items: center;
+            z-index: 9999;
+        }
+        .loader {
+            width: 48px; height: 48px;
+            border: 4px solid var(--border);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        
+        /* MODAL */
+        .modal-overlay {
+            display: none;
+            position: fixed; inset: 0;
+            background: rgba(13, 43, 78, 0.6);
+            backdrop-filter: blur(4px);
+            z-index: 200;
+            justify-content: center; align-items: center;
+            padding: 20px;
+        }
+        .modal-overlay.active { display: flex; }
+        .modal {
+            background: #fff;
+            border-radius: var(--radius-lg);
+            padding: 32px 28px;
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+        }
+        .modal-icon { font-size: 48px; margin-bottom: 12px; }
+        .modal h3 { color: var(--primary); margin-bottom: 8px; font-size: 20px; }
+        .modal p { color: var(--text-muted); font-size: 14px; margin-bottom: 20px; }
+        .modal-buttons {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        @media (max-width: 640px) {
+            .profile-card { padding: 24px 20px; }
+            .profile-avatar { width: 80px; height: 80px; }
+            .profile-name { font-size: 22px; }
+            .section { padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- LOADING -->
+<div class="loading-screen" id="loadingScreen">
+    <div class="loader"></div>
+</div>
+
+<!-- HEADER -->
+<header class="header">
+    <div class="container header-inner">
+        <a href="index.html" class="logo">
+            <div class="logo-icon"><img src="assets/logo.png" alt="О-Банк"></div>
+            <div class="logo-text">
+                <div class="logo-name">О-БАНК</div>
+                <div class="logo-sub">Личный кабинет</div>
+            </div>
+        </a>
+        <div class="header-user" onclick="showLogoutModal()">
+            <img id="headerAvatar" class="header-avatar" src="assets/logo.png" alt="Аватар">
+            <span class="header-name" id="headerName">—</span>
+        </div>
+    </div>
+</header>
+
+<!-- MAIN -->
+<main class="main">
+    <div class="container">
+        
+        <!-- PROFILE CARD -->
+        <div class="profile-card">
+            <div class="profile-inner">
+                <img id="profileAvatar" class="profile-avatar" src="assets/logo.png" alt="Аватар">
+                <div class="profile-info">
+                    <div class="profile-name" id="profileName">Загрузка...</div>
+                    <div class="profile-id" id="profileId">Discord ID: —</div>
+                    <span class="profile-role" id="profileRole">Гражданин</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- STATS -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-label">Баланс счёта</div>
+                <div class="stat-value">0,00 ₽</div>
+                <div class="stat-sub">Счёт не открыт</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Цифровой Рубль</div>
+                <div class="stat-value">0,00 ЦР</div>
+                <div class="stat-sub">Кошелёк не активирован</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Активные кредиты</div>
+                <div class="stat-value">0</div>
+                <div class="stat-sub">Задолженности нет</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Заявок в работе</div>
+                <div class="stat-value">0</div>
+                <div class="stat-sub">Нет активных заявок</div>
+            </div>
+        </div>
+        
+        <!-- QUICK ACTIONS -->
+        <div class="section">
+            <div class="section-header">
+                <h2 class="section-title">🏦 Услуги банка</h2>
+            </div>
+            <div class="services-grid">
+                <div class="service-btn" onclick="showSoonModal('Кредиты')">
+                    <div class="service-btn-icon">💳</div>
+                    <div class="service-btn-name">Взять кредит</div>
+                    <div class="service-btn-status">Скоро</div>
+                </div>
+                <div class="service-btn" onclick="showSoonModal('Открытие счёта')">
+                    <div class="service-btn-icon">🏦</div>
+                    <div class="service-btn-name">Открыть счёт</div>
+                    <div class="service-btn-status">Скоро</div>
+                </div>
+                <div class="service-btn" onclick="showSoonModal('Вклады')">
+                    <div class="service-btn-icon">💰</div>
+                    <div class="service-btn-name">Открыть вклад</div>
+                    <div class="service-btn-status">Скоро</div>
+                </div>
+                <div class="service-btn" onclick="showSoonModal('Обмен валют')">
+                    <div class="service-btn-icon">💱</div>
+                    <div class="service-btn-name">Обмен валют</div>
+                    <div class="service-btn-status">Скоро</div>
+                </div>
+                <div class="service-btn" onclick="showSoonModal('Электронная очередь')">
+                    <div class="service-btn-icon">🎫</div>
+                    <div class="service-btn-name">Взять талон</div>
+                    <div class="service-btn-status">Скоро</div>
+                </div>
+                <div class="service-btn" onclick="showSoonModal('Цифровой Рубль')">
+                    <div class="service-btn-icon">🪙</div>
+                    <div class="service-btn-name">Цифровой Рубль</div>
+                    <div class="service-btn-status">Скоро</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- MY APPLICATIONS -->
+        <div class="section">
+            <div class="section-header">
+                <h2 class="section-title">📝 Мои заявки</h2>
+            </div>
+            <div class="empty-state">
+                <div class="empty-icon">📭</div>
+                <div class="empty-text">У вас пока нет заявок. Подайте первую через раздел "Услуги банка".</div>
+            </div>
+        </div>
+        
+        <!-- MY CONTRACTS -->
+        <div class="section">
+            <div class="section-header">
+                <h2 class="section-title">📄 Мои договоры</h2>
+            </div>
+            <div class="empty-state">
+                <div class="empty-icon">📁</div>
+                <div class="empty-text">Заключённых договоров нет.</div>
+            </div>
+        </div>
+        
+    </div>
+</main>
+
+<!-- LOGOUT MODAL -->
+<div class="modal-overlay" id="modal" onclick="closeModalOverlay(event)">
+    <div class="modal" id="modalContent" onclick="event.stopPropagation()">
+        <div class="modal-icon">🚪</div>
+        <h3>Выйти из системы?</h3>
+        <p>Вы уверены, что хотите выйти из личного кабинета О-Банка?</p>
+        <div class="modal-buttons">
+            <button class="btn btn-outline" onclick="closeModalOverlay()">Отмена</button>
+            <button class="btn btn-danger" onclick="handleLogout()">Выйти</button>
+        </div>
+    </div>
+</div>
+
+<script>
+(function() {
+    'use strict';
+    
+    // ===== ПРОВЕРКА АВТОРИЗАЦИИ =====
+    var savedUser = null;
+    try {
+        var raw = localStorage.getItem('obank_user');
+        if (raw) savedUser = JSON.parse(raw);
+    } catch (e) {
+        localStorage.removeItem('obank_user');
+    }
+    
+    if (!savedUser || !savedUser.id) {
+        // Не авторизован - редирект на главную
+        window.location.href = 'index.html';
+        return;
+    }
+    
+    // ===== ID СОТРУДНИКОВ И ДИРЕКТОРА =====
+    // TODO: сюда добавить реальные Discord ID
+    var DIRECTOR_IDS = [];
+    var EMPLOYEE_IDS = [];
+    
+    // ===== ЗАПОЛНЕНИЕ ДАННЫХ =====
+    function fillUserData() {
+        var user = savedUser;
+        var name = user.global_name || user.username || 'Пользователь';
+        
+        // Аватар
+        var avatarUrl = 'assets/logo.png';
+        if (user.avatar) {
+            var ext = user.avatar.indexOf('a_') === 0 ? 'gif' : 'png';
+            avatarUrl = 'https://cdn.discordapp.com/avatars/' + user.id + '/' + user.avatar + '.' + ext + '?size=256';
+        }
+        
+        // Заполняем шапку
+        document.getElementById('headerAvatar').src = avatarUrl;
+        document.getElementById('headerName').textContent = name;
+        
+        // Заполняем профиль
+        document.getElementById('profileAvatar').src = avatarUrl;
+        document.getElementById('profileName').textContent = name;
+        document.getElementById('profileId').textContent = 'Discord ID: ' + user.id;
+        
+        // Определяем роль
+        var roleEl = document.getElementById('profileRole');
+        if (DIRECTOR_IDS.indexOf(user.id) !== -1) {
+            roleEl.textContent = '🎩 Директор О-Банка';
+            roleEl.className = 'profile-role role-director';
+        } else if (EMPLOYEE_IDS.indexOf(user.id) !== -1) {
+            roleEl.textContent = '👔 Сотрудник О-Банка';
+            roleEl.className = 'profile-role role-employee';
+        } else {
+            roleEl.textContent = '👤 Гражданин';
+        }
+        
+        // Устанавливаем title страницы
+        document.title = name + ' | О-Банк';
+        
+        // Скрываем экран загрузки
+        setTimeout(function() {
+            document.getElementById('loadingScreen').style.display = 'none';
+        }, 300);
+    }
+    
+    // ===== МОДАЛКА "СКОРО" =====
+    window.showSoonModal = function(serviceName) {
+        var html = '<div class="modal-icon">🚧</div>';
+        html += '<h3>' + serviceName + '</h3>';
+        html += '<p>Эта услуга появится в ближайших обновлениях О-Банка. Следите за новостями!</p>';
+        html += '<div class="modal-buttons"><button class="btn" onclick="closeModalOverlay()">Понятно</button></div>';
+        document.getElementById('modalContent').innerHTML = html;
+        document.getElementById('modal').classList.add('active');
+    };
+    
+    // ===== МОДАЛКА "ВЫЙТИ" =====
+    window.showLogoutModal = function() {
+        var html = '<div class="modal-icon">🚪</div>';
+        html += '<h3>Выйти из системы?</h3>';
+        html += '<p>Вы уверены, что хотите выйти из личного кабинета О-Банка?</p>';
+        html += '<div class="modal-buttons">';
+                html += '<button class="btn btn-outline" onclick="closeModalOverlay()">Отмена</button>';
+        html += '<button class="btn btn-danger" onclick="handleLogout()">Выйти</button>';
+        html += '</div>';
+        document.getElementById('modalContent').innerHTML = html;
+        document.getElementById('modal').classList.add('active');
+    };
+    
+    // ===== ВЫХОД =====
+    window.handleLogout = function() {
+        localStorage.removeItem('obank_user');
+        localStorage.removeItem('obank_token');
+        localStorage.removeItem('obank_login_time');
+        window.location.href = 'index.html';
+    };
+    
+    // ===== ЗАКРЫТИЕ МОДАЛКИ =====
+    window.closeModalOverlay = function(e) {
+        if (!e || e.target.id === 'modal') {
+            document.getElementById('modal').classList.remove('active');
+        }
+    };
+    
+    // ===== ЗАПУСК =====
+    fillUserData();
+})();
+</script>
+
+</body>
+</html>
