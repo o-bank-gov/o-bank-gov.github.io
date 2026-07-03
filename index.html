@@ -646,14 +646,79 @@
 </div>
 
 <script>
-    function openModal() {
-        document.getElementById('modal').classList.add('active');
+    // ===== НАСТРОЙКИ АВТОРИЗАЦИИ =====
+    const OAUTH_CONFIG = {
+        clientId: '1522296397465129101',
+        redirectUri: 'https://o-bank-gov.github.io/callback.html',
+        scope: 'identify email',
+        responseType: 'token' // implicit flow - без бэкенда
+    };
+
+    // ===== ГЕНЕРАЦИЯ URL ДЛЯ ВХОДА ЧЕРЕЗ DISCORD =====
+    function getDiscordAuthUrl() {
+        const params = new URLSearchParams({
+            client_id: OAUTH_CONFIG.clientId,
+            redirect_uri: OAUTH_CONFIG.redirectUri,
+            response_type: OAUTH_CONFIG.responseType,
+            scope: OAUTH_CONFIG.scope
+        });
+        return 'https://discord.com/oauth2/authorize?' + params.toString();
     }
+
+    // ===== ОБРАБОТЧИК КНОПКИ "ВОЙТИ" =====
+    function openModal() {
+        // Проверяем: возможно пользователь уже вошёл
+        const savedUser = localStorage.getItem('obank_user');
+        if (savedUser) {
+            try {
+                const user = JSON.parse(savedUser);
+                // Показываем модалку "Вы уже вошли"
+                showLoggedInModal(user);
+                return;
+            } catch (e) {
+                localStorage.removeItem('obank_user');
+            }
+        }
+        // Перенаправление на Discord
+        window.location.href = getDiscordAuthUrl();
+    }
+
+    // ===== МОДАЛКА "ВЫ УЖЕ ВОШЛИ" =====
+    function showLoggedInModal(user) {
+        const modal = document.getElementById('modal');
+        const modalContent = modal.querySelector('.modal');
+        const name = user.global_name || user.username || 'Пользователь';
+        let avatarUrl = 'assets/logo.png';
+        if (user.avatar) {
+            const ext = user.avatar.startsWith('a_') ? 'gif' : 'png';
+            avatarUrl = `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.${ext}?size=128`;
+        }
+        modalContent.innerHTML = `
+            <img src="${avatarUrl}" alt="Аватар" style="width:80px;height:80px;border-radius:50%;margin:0 auto 16px;display:block;border:3px solid #0D2B4E;">
+            <h3>С возвращением, ${name}!</h3>
+            <p>Вы уже авторизованы в системе О-Банка.</p>
+            <a href="cabinet.html" class="modal-close" style="text-decoration:none;display:inline-block;margin-right:8px;">Личный кабинет</a>
+            <button class="modal-close" onclick="logout()" style="background:#C8102E;">Выйти</button>
+        `;
+        modal.classList.add('active');
+    }
+
+    // ===== ВЫХОД =====
+    function logout() {
+        localStorage.removeItem('obank_user');
+        localStorage.removeItem('obank_token');
+        localStorage.removeItem('obank_login_time');
+        location.reload();
+    }
+
+    // ===== ЗАКРЫТИЕ МОДАЛКИ =====
     function closeModal(e) {
         if (!e || e.target.id === 'modal' || e.type === 'click') {
             document.getElementById('modal').classList.remove('active');
         }
     }
+
+    // ===== ПРОВЕРКА СТАТУСА "БАНК ОТКРЫТ" =====
     function updateWorkStatus() {
         const now = new Date();
         const mskOffset = 3 * 60;
@@ -665,6 +730,7 @@
         const time = hour + minute / 60;
         const statusEl = document.getElementById('statusText');
         const statusBlock = document.getElementById('workStatus');
+        if (!statusEl || !statusBlock) return;
         let isOpen = false;
         if (day >= 1 && day <= 4) isOpen = time >= 8 && time < 18;
         else if (day === 5) isOpen = time >= 8 && time < 17.5;
@@ -682,7 +748,29 @@
     }
     updateWorkStatus();
     setInterval(updateWorkStatus, 60000);
-</script>
 
+    // ===== ОБНОВЛЕНИЕ КНОПКИ "ВОЙТИ" ЕСЛИ ПОЛЬЗОВАТЕЛЬ УЖЕ ВОШЁЛ =====
+    (function updateLoginButton() {
+        const savedUser = localStorage.getItem('obank_user');
+        if (!savedUser) return;
+        try {
+            const user = JSON.parse(savedUser);
+            const btns = document.querySelectorAll('.btn-login, .btn-primary');
+            btns.forEach(btn => {
+                if (btn.textContent.includes('Войти')) {
+                    const span = btn.querySelector('span');
+                    if (span) {
+                        span.textContent = user.global_name || user.username || 'Кабинет';
+                    } else {
+                        // Для главной кнопки в hero
+                        btn.innerHTML = btn.innerHTML.replace('Войти через Discord', 'Мой кабинет');
+                    }
+                }
+            });
+        } catch (e) {
+            console.error('Error updating login button:', e);
+        }
+    })();
+</script>
 </body>
     </html>
