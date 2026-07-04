@@ -24,7 +24,10 @@
             --radius: 12px;
             --radius-lg: 16px;
         }
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: rgba(212, 175, 55, 0.2); }
+*:focus { outline: none; }
+button, a, .service-card, .service-btn, .btn, .btn-login, .btn-primary, .btn-secondary, .modal-close, .header-user { transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.2s ease, border-color 0.2s ease; }
+button:active, a:active, .service-card:active, .service-btn:active, .btn:active, .btn-login:active, .btn-primary:active, .btn-secondary:active, .header-user:active { transform: scale(0.97); }}
         html { scroll-behavior: smooth; }
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
