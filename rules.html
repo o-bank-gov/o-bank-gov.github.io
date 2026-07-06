@@ -1,0 +1,661 @@
+<!--
+================================================================
+  О-БАНК :: Правила и FAQ
+  Орловский государственный банк
+================================================================
+-->
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Правила и FAQ | О-Банк</title>
+    <link rel="icon" type="image/png" href="assets/logo.png">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0D2B4E;
+            --primary-light: #1a4275;
+            --accent: #C8102E;
+            --success: #00A651;
+            --warning: #F59E0B;
+            --gold: #D4AF37;
+            --bg: #F5F7FA;
+            --bg-card: #FFFFFF;
+            --text: #1A1A1A;
+            --text-muted: #6B7280;
+            --border: #E5E7EB;
+            --radius: 12px;
+            --radius-lg: 16px;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
+        }
+        h1, h2, h3, h4 { font-family: 'Manrope', sans-serif; font-weight: 700; }
+        a { color: inherit; text-decoration: none; }
+        button { font-family: inherit; cursor: pointer; border: none; background: none; }
+        img { max-width: 100%; display: block; }
+        .container { max-width: 1000px; margin: 0 auto; padding: 0 20px; }
+
+        /* HEADER */
+        .header { background: #fff; border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; }
+        .header-inner { display: flex; justify-content: space-between; align-items: center; padding: 14px 0; }
+        .logo { display: flex; align-items: center; gap: 12px; }
+        .logo-icon { width: 40px; height: 40px; background: #fff; border: 1px solid var(--border); border-radius: 10px; padding: 3px; }
+        .logo-icon img { width: 100%; height: 100%; object-fit: contain; }
+        .logo-text { display: flex; flex-direction: column; line-height: 1.1; }
+        .logo-name { font-weight: 800; font-size: 16px; color: var(--primary); }
+        .logo-sub { font-size: 10px; color: var(--text-muted); font-weight: 500; }
+        .header-back { padding: 8px 16px; background: var(--bg); border-radius: 8px; font-size: 13px; font-weight: 600; color: var(--primary); }
+        .header-back:hover { background: var(--border); }
+
+        /* HERO */
+        .hero {
+            background: linear-gradient(135deg, var(--primary) 0%, #08203d 100%);
+            color: #fff;
+            padding: 60px 0;
+            text-align: center;
+        }
+        .hero h1 { font-size: 36px; margin-bottom: 12px; }
+        .hero p { color: rgba(255,255,255,0.75); font-size: 16px; max-width: 600px; margin: 0 auto; }
+
+        /* TABS */
+        .tabs {
+            display: flex;
+            gap: 8px;
+            background: #fff;
+            padding: 8px;
+            border-radius: var(--radius);
+            margin: -30px auto 40px;
+            box-shadow: 0 4px 16px rgba(13,43,78,0.1);
+            max-width: 700px;
+            position: relative;
+            z-index: 10;
+        }
+        .tab {
+            flex: 1;
+            padding: 12px 16px;
+            text-align: center;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 14px;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .tab.active { background: var(--primary); color: #fff; }
+        .tab:hover:not(.active) { background: var(--bg); }
+
+        /* CONTENT */
+        .content { padding-bottom: 60px; }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+
+        /* SECTIONS */
+        .section {
+            background: #fff;
+            border-radius: var(--radius-lg);
+            padding: 32px;
+            margin-bottom: 24px;
+            border: 1px solid var(--border);
+        }
+        .section-title {
+            font-size: 22px;
+            color: var(--primary);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .section-desc {
+            color: var(--text-muted);
+            font-size: 14px;
+            margin-bottom: 24px;
+        }
+
+        /* RULE */
+        .rule {
+            background: var(--bg);
+            border-left: 4px solid var(--primary);
+            padding: 16px 20px;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            transition: all 0.2s;
+        }
+        .rule:hover { transform: translateX(4px); box-shadow: 0 2px 8px rgba(13,43,78,0.08); }
+        .rule-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; flex-wrap: wrap; gap: 8px; }
+        .rule-number { font-weight: 700; color: var(--primary); font-size: 14px; }
+        .rule-punishment { padding: 4px 12px; border-radius: 100px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+        .punish-mut { background: rgba(245, 158, 11, 0.15); color: #b45309; }
+        .punish-ban { background: rgba(200, 16, 46, 0.15); color: var(--accent); }
+        .punish-forever { background: #000; color: var(--gold); }
+        .rule-text { font-size: 14px; color: var(--text); line-height: 1.5; }
+        .rule-duration { font-size: 12px; color: var(--text-muted); margin-top: 6px; font-style: italic; }
+
+        /* FAQ */
+        .faq-item {
+            background: var(--bg);
+            border-radius: 10px;
+            margin-bottom: 10px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+        }
+        .faq-question {
+            padding: 16px 20px;
+            font-weight: 600;
+            font-size: 15px;
+            color: var(--primary);
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            transition: background 0.2s;
+        }
+        .faq-question:hover { background: #fff; }
+        .faq-question .arrow {
+            font-size: 12px;
+            transition: transform 0.3s;
+            color: var(--text-muted);
+        }
+        .faq-item.open .faq-question .arrow { transform: rotate(180deg); }
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+            background: #fff;
+        }
+        .faq-item.open .faq-answer { max-height: 500px; }
+        .faq-answer-inner { padding: 16px 20px; font-size: 14px; color: var(--text); line-height: 1.6; border-top: 1px solid var(--border); }
+        .faq-answer-inner a { color: var(--primary); font-weight: 600; text-decoration: underline; }
+
+        /* CATEGORY BADGE */
+        .cat-badge {
+            display: inline-block;
+            padding: 6px 14px;
+            background: var(--gold);
+            color: #1a1a1a;
+            border-radius: 100px;
+            font-size: 11px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 20px;
+        }
+
+        /* FOOTER */
+        .footer {
+            background: var(--primary);
+            color: rgba(255,255,255,0.7);
+            text-align: center;
+            padding: 30px 20px;
+            font-size: 13px;
+        }
+        .footer strong { color: #fff; }
+
+        @media (max-width: 640px) {
+            .hero h1 { font-size: 26px; }
+            .section { padding: 20px; }
+            .tabs { margin: -20px 20px 30px; }
+            .tab { padding: 10px 8px; font-size: 12px; }
+        }
+    </style>
+</head>
+<body>
+
+<header class="header">
+    <div class="container header-inner">
+        <a href="index.html" class="logo">
+            <div class="logo-icon"><img src="assets/logo.png" alt="О-Банк"></div>
+            <div class="logo-text">
+                <div class="logo-name">О-БАНК</div>
+                <div class="logo-sub">Правила и FAQ</div>
+            </div>
+        </a>
+        <a href="index.html" class="header-back">← На главную</a>
+    </div>
+</header>
+
+<section class="hero">
+    <div class="container">
+        <h1>📜 Правила и FAQ</h1>
+        <p>Ознакомьтесь с правилами О-Банка и найдите ответы на популярные вопросы</p>
+    </div>
+</section>
+
+<div class="container">
+    <div class="tabs">
+        <div class="tab active" onclick="switchTab('rules')">📜 Правила</div>
+        <div class="tab" onclick="switchTab('faq')">❓ FAQ</div>
+    </div>
+</div>
+
+<div class="container content">
+
+    <!-- ===== ПРАВИЛА ===== -->
+    <div class="tab-content active" id="tab-rules">
+        
+        <div class="section">
+            <span class="cat-badge">👤 Для граждан</span>
+            <h2 class="section-title">1. Общие положения</h2>
+            <p class="section-desc">Основные правила для всех клиентов О-Банка</p>
+            
+            <div class="rule">
+                <div class="rule-header">
+                    <span class="rule-number">Правило 1.1</span>
+                    <span class="rule-punishment punish-mut">Отклонение</span>
+                </div>
+                <div class="rule-text">Клиент обязан указывать достоверные данные при подаче любых заявок. Ложные данные ведут к отклонению заявок и возможному бану.</div>
+            </div>
+            
+            <div class="rule">
+                <div class="rule-header">
+                    <span class="rule-number">Правило 1.2</span>
+                    <span class="rule-punishment punish-mut">Отклонение</span>
+                </div>
+                <div class="rule-text">Клиент может иметь только одну активную заявку на кредит в момент времени.</div>
+            </div>
+
+            <div class="rule">
+                <div class="rule-header">
+                    <span class="rule-number">Правило 1.3</span>
+                    <span class="rule-punishment punish-ban">Бан от 1 дня</span>
+                </div>
+                <div class="rule-text">Запрещено использовать оскорбления в отношении сотрудников банка при обращении.</div>
+                <div class="rule-duration">Длительность: от 1 дня</div>
+            </div>
+
+            <div class="rule">
+                <div class="rule-header">
+                    <span class="rule-number">Правило 1.4</span>
+                    <span class="rule-punishment punish-ban">Бан от 3 дней</span>
+                </div>
+                <div class="rule-text">Запрещено спамить одинаковыми заявками. Между отклонённой и новой заявкой должно пройти не менее 24 часов.</div>
+                <div class="rule-duration">Длительность: от 3 дней</div>
+            </div>
+
+            <div class="rule">
+                <div class="rule-header">
+                    <span class="rule-number">Правило 1.5</span>
+                    <span class="rule-punishment punish-ban">Бан от 7 дней</span>
+                </div>
+                <div class="rule-text">Запрещено использовать несколько аккаунтов для получения дополнительных кредитов или обхода санкций.</div>
+                <div class="rule-duration">Длительность: от 7 дней</div>
+            </div>
+
+            <div class="rule">
+                <div class="rule-header">
+                    <span class="rule-number">Правило 1.6</span>
+                    <span class="rule-punishment punish-forever">ЧСБ</span>
+                </div>
+                <div class="rule-text">Запрещено мошенничество, подделка документов, попытки взлома системы банка.</div>
+                <div class="rule-duration">Длительность: навсегда, внесение в ЧСБ</div>
+            </div>
+
+            <div class="rule">
+                <div class="rule-header">
+                    <span class="rule-number">Правило 1.7</span>
+                    <span class="rule-punishment punish-ban">Бан + судебное разбирательство</span>
+                </div>
+                <div class="rule-text">Клиент обязан своевременно погашать взятые кредиты в соответствии с графиком платежей.</div>
+                <div class="rule-duration">Просрочка: пени 0.1% в день</div>
+            </div>
+
+            <div class="rule">
+                <div class="rule-header">
+                    <span class="rule-number">Правило 1.8</span>
+                    <span class="rule-punishment punish-mut">Предупреждение</span>
+                </div>
+                <div class="rule-text">Клиент обязан хранить в тайне свои учётные данные и не передавать их третьим лицам.</div>
+            </div>
+        </div>
+
+        <div class="section">
+            <span class="cat-badge">👔 Для сотрудников</span>
+            <h2 class="section-title">2. Обязанности персонала</h2>
+            <p class="section-desc">Правила для сотрудников О-Банка</p>
+
+            <div class="rule">
+                <div class="rule-header">
+                    <span class="rule-number">Правило 2.1</span>
+                    <span class="rule-punishment punish-mut">Выговор</span>
+                </div>
+                <div class="rule-text">Сотрудник обязан вести себя профессионально и уважительно с клиентами.</div>
+            </div>
+
+            <div class="rule">
+                <div class="rule-header">
+                    <span class="rule-number">Правило 2.2</span>
+                    <span class="rule-punishment punish-ban">Увольнение</span>
+                </div>
+                <div class="rule-text">Сотрудник обязан соблюдать банковскую тайну и не разглашать данные клиентов третьим лицам.</div>
+            </div>
+
+            <div class="rule">
+                <div class="rule-header">
+                    <span class="rule-number">Правило 2.3</span>
+                    <span class="rule-punishment punish-mut">Предупреждение</span>
+                </div>
+                <div class="rule-text">Заявки обрабатываются в порядке поступления в течение 24 часов в рабочее время банка.</div>
+            </div>
+
+            <div class="rule">
+                <div class="rule-header">
+                    <span class="rule-number">Правило 2.4</span>
+                    <span class="rule-punishment punish-mut">Выговор</span>
+                </div>
+                <div class="rule-text">Все решения по заявкам должны быть обоснованы и соответствовать регламентам банка.</div>
+            </div>
+
+            <div class="rule">
+                <div class="rule-header">
+                    <span class="rule-number">Правило 2.5</span>
+                    <span class="rule-punishment punish-ban">Увольнение + ЧСБ</span>
+                </div>
+                <div class="rule-text">Запрещено использование служебного положения в личных целях, взяточничество, коррупция.</div>
+            </div>
+
+            <div class="rule">
+                <div class="rule-header">
+                    <span class="rule-number">Правило 2.6</span>
+                    <span class="rule-punishment punish-mut">Выговор</span>
+                </div>
+                <div class="rule-text">Сотрудник не имеет права одобрять заявки родственникам или близким друзьям без согласования с директором.</div>
+            </div>
+        </div>
+
+        <div class="section">
+            <span class="cat-badge">⚡ Для администрации</span>
+            <h2 class="section-title">3. Модерация и управление</h2>
+            <p class="section-desc">Правила для администраторов О-Банка</p>
+
+            <div class="rule">
+                <div class="rule-header">
+                    <span class="rule-number">Правило 3.1</span>
+                    <span class="rule-punishment punish-mut">Внутреннее решение</span>
+                </div>
+                <div class="rule-text">Администраторы могут выдавать предупреждения и временные баны без указания причины, но должны действовать в соответствии с духом правил.</div>
+            </div>
+
+            <div class="rule">
+                <div class="rule-header">
+                    <span class="rule-number">Правило 3.2</span>
+                    <span class="rule-punishment punish-forever">Строгое ограничение</span>
+                </div>
+                <div class="rule-text">Внесение в Чёрный Список Банка (ЧСБ) возможно только Создателем или СЗФ и с обязательным указанием причины.</div>
+            </div>
+
+            <div class="rule">
+                <div class="rule-header">
+                    <span class="rule-number">Правило 3.3</span>
+                    <span class="rule-punishment punish-mut">Обязательство</span>
+                </div>
+                <div class="rule-text">Все модерационные действия автоматически логируются и могут быть проверены СЗФ в рамках аудита.</div>
+            </div>
+
+            <div class="rule">
+                <div class="rule-header">
+                    <span class="rule-number">Правило 3.4</span>
+                    <span class="rule-punishment punish-ban">Отстранение</span>
+                </div>
+                <div class="rule-text">За злоупотребление правами модератор может быть отстранён Создателем или СЗФ.</div>
+            </div>
+
+            <div class="rule">
+                <div class="rule-header">
+                    <span class="rule-number">Правило 3.5</span>
+                    <span class="rule-punishment punish-mut">Обязательство</span>
+                </div>
+                <div class="rule-text">Администратор обязан быть беспристрастным и не использовать баны из личной мести. Действия должны основываться на реальных нарушениях.</div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- ===== FAQ ===== -->
+    <div class="tab-content" id="tab-faq">
+        
+        <div class="section">
+            <h2 class="section-title">❓ Часто задаваемые вопросы</h2>
+            <p class="section-desc">Ответы на самые популярные вопросы клиентов</p>
+
+            <div class="faq-item" onclick="toggleFaq(this)">
+                <div class="faq-question">
+                    <span>🔐 Как войти на сайт О-Банка?</span>
+                    <span class="arrow">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-inner">
+                        Для входа на сайт нажмите кнопку <strong>«Войти через Discord»</strong> на главной странице. Вы будете перенаправлены на Discord для авторизации. После разрешения доступа вы автоматически попадёте в свой личный кабинет.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item" onclick="toggleFaq(this)">
+                <div class="faq-question">
+                    <span>💳 Как подать заявку на кредит?</span>
+                    <span class="arrow">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-inner">
+                        1. Войдите в личный кабинет<br>
+                        2. Перейдите в раздел <strong>«Услуги банка»</strong><br>
+                        3. Нажмите <strong>«Взять кредит»</strong><br>
+                        4. Заполните форму (ФИО, паспорт, сумма, срок, цель)<br>
+                        5. Отправьте заявку<br><br>
+                        Сотрудники О-Банка рассмотрят вашу заявку в течение 24 часов и уведомят вас о решении в личных сообщениях Discord.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item" onclick="toggleFaq(this)">
+                <div class="faq-question">
+                    <span>✍️ Как создать электронную подпись?</span>
+                    <span class="arrow">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-inner">
+                                                Вы можете создать электронную подпись на бесплатном сервисе: <a href="https://podpis-online.ru/index_mobile.php" target="_blank">podpis-online.ru</a><br><br>
+                        Инструкция:<br>
+                        1. Перейдите по ссылке<br>
+                        2. Впишите ваши фамилию, имя<br>
+                        3. Выберите подпись из предложенных<br>
+                        4. Скачайте<br>
+                        5. Загрузите в личном кабинете О-Банка
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item" onclick="toggleFaq(this)">
+                <div class="faq-question">
+                    <span>⏰ Сколько дней рассматривается заявка?</span>
+                    <span class="arrow">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-inner">
+                        Стандартный срок рассмотрения — <strong>до 24 часов</strong> в рабочее время банка.<br><br>
+                        <strong>График работы:</strong><br>
+                        • Пн-Чт: 08:00 – 18:00 МСК<br>
+                        • Пт: 08:00 – 17:30 МСК<br>
+                        • Сб-Вс: выходные<br><br>
+                        Заявки, поданные в выходные, будут рассмотрены в понедельник.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item" onclick="toggleFaq(this)">
+                <div class="faq-question">
+                    <span>❌ Что делать если заявку отклонили?</span>
+                    <span class="arrow">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-inner">
+                        При отклонении заявки вы получите уведомление в личные сообщения Discord с указанием причины.<br><br>
+                        Вы можете:<br>
+                        • Исправить указанные недостатки<br>
+                        • Подать новую заявку через 24 часа<br>
+                        • Обратиться к сотрудникам за консультацией
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item" onclick="toggleFaq(this)">
+                <div class="faq-question">
+                    <span>🏦 Как открыть расчётный счёт?</span>
+                    <span class="arrow">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-inner">
+                        Функция открытия счетов появится в ближайшем обновлении. Следите за новостями О-Банка!<br><br>
+                        Пока что вы можете:<br>
+                        • Подать заявку на кредит<br>
+                        • Ознакомиться с правилами<br>
+                        • Изучить услуги банка
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item" onclick="toggleFaq(this)">
+                <div class="faq-question">
+                    <span>⚫ Что такое ЧСБ?</span>
+                    <span class="arrow">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-inner">
+                        <strong>ЧСБ (Чёрный Список Банка)</strong> — это высшая мера ограничения в О-Банке.<br><br>
+                        Клиент, внесённый в ЧСБ:<br>
+                        • <strong>Навсегда</strong> лишается доступа к услугам банка<br>
+                        • Не может подавать заявки<br>
+                        • Не может открывать счета<br>
+                        • Может только просматривать сайт<br><br>
+                        Внесение в ЧСБ возможно только Создателем или СЗФ с обязательным указанием причины.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item" onclick="toggleFaq(this)">
+                <div class="faq-question">
+                    <span>⚖️ Как обжаловать бан?</span>
+                    <span class="arrow">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-inner">
+                        Для обжалования решения о блокировке:<br><br>
+                        1. Обратитесь к <strong>СЗФ (Следящему За Фракцией)</strong> через личные сообщения Discord<br>
+                        2. Укажите свой Discord ID и причину обжалования<br>
+                        3. Приложите доказательства невиновности (если есть)<br>
+                        4. Дождитесь рассмотрения обращения<br><br>
+                        Решение СЗФ является окончательным.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item" onclick="toggleFaq(this)">
+                <div class="faq-question">
+                    <span>📞 Как связаться с сотрудником?</span>
+                    <span class="arrow">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-inner">
+                        Способы связи с О-Банком:<br><br>
+                        • <strong>Discord-сервер</strong> — основной канал связи<br>
+                        • <strong>Телефон:</strong> +7 (906) 581-59-40<br>
+                        • <strong>Адрес:</strong> г. Санкт-Петербург, ул. Неглинная, д. 12<br>
+                        • <strong>Приёмная Зампреда</strong> — по всем вопросам<br><br>
+                        Обращайтесь в рабочее время банка для быстрого ответа.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item" onclick="toggleFaq(this)">
+                <div class="faq-question">
+                    <span>📅 Работает ли банк по выходным?</span>
+                    <span class="arrow">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-inner">
+                        В <strong>субботу и воскресенье</strong> О-Банк не работает.<br><br>
+                        Что доступно в выходные:<br>
+                        • ✅ Просмотр сайта и новостей<br>
+                        • ✅ Ознакомление с правилами<br>
+                        • ✅ Подача заявок (будут рассмотрены в понедельник)<br>
+                        • ❌ Одобрение заявок (только в рабочее время)<br>
+                        • ❌ Консультации сотрудников<br><br>
+                        В понедельник в 08:00 МСК банк возобновляет работу.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item" onclick="toggleFaq(this)">
+                <div class="faq-question">
+                    <span>💼 Что такое роли в системе?</span>
+                    <span class="arrow">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-inner">
+                        В О-Банке действует иерархическая система ролей:<br><br>
+                        • 👑 <strong>Создатель</strong> — основатель банка (все права)<br>
+                        • 🔍 <strong>СЗФ</strong> — следящий за фракцией (модерация)<br>
+                        • ⚡ <strong>Администратор</strong> — управление модерацией<br>
+                        • 🎩 <strong>Директор</strong> — управление банком<br>
+                        • 🏛️ <strong>Юрист</strong> — юридические операции<br>
+                        • 💳 <strong>Кредитор</strong> — работа с кредитами<br>
+                        • 🏦 <strong>Кассир</strong> — работа со счетами<br>
+                        • 👔 <strong>Сотрудник</strong> — базовые функции<br>
+                        • 👤 <strong>Гражданин</strong> — клиент банка
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item" onclick="toggleFaq(this)">
+                <div class="faq-question">
+                    <span>🪙 Что такое Цифровой Рубль?</span>
+                    <span class="arrow">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-inner">
+                        <strong>Цифровой Рубль (ЦР)</strong> — это защищённая электронная валюта О-Банка на базе блокчейн-технологий.<br><br>
+                        Особенности:<br>
+                        • 💰 Курс 1 ЦР = 1 ₽<br>
+                        • ⚡ Мгновенные переводы между кошельками<br>
+                        • 🔐 Полная защита от подделки<br>
+                        • 📱 Доступ через личный кабинет<br><br>
+                        <em>Функция появится в ближайшем обновлении.</em>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<footer class="footer">
+    <div class="container">
+        <div><strong>© О-Банк, 2000–2026</strong></div>
+        <div style="margin-top: 8px;">Орловский государственный банк · Финансовая опора Государства</div>
+    </div>
+</footer>
+
+<script>
+    function switchTab(tabName) {
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+        event.target.classList.add('active');
+        document.getElementById('tab-' + tabName).classList.add('active');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function toggleFaq(item) {
+        item.classList.toggle('open');
+    }
+</script>
+
+</body>
+</html>
