@@ -1,0 +1,583 @@
+<!--
+================================================================
+  О-БАНК :: Конвертер подписи GIF → PNG
+  Орловский государственный банк
+================================================================
+-->
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Конвертер подписи | О-Банк</title>
+    <link rel="icon" type="image/png" href="assets/logo.png">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/gifuct-js@2.1.2/dist/gifuct-js.min.js"></script>
+    <style>
+        :root {
+            --primary: #0D2B4E;
+            --primary-light: #1a4275;
+            --accent: #C8102E;
+            --success: #00A651;
+            --gold: #D4AF37;
+            --bg: #F5F7FA;
+            --text: #1A1A1A;
+            --text-muted: #6B7280;
+            --border: #E5E7EB;
+            --radius: 12px;
+            --radius-lg: 16px;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: rgba(212, 175, 55, 0.2); }
+        *:focus { outline: none; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
+        }
+        h1, h2, h3 { font-family: 'Manrope', sans-serif; font-weight: 700; }
+        a { color: inherit; text-decoration: none; }
+        button { font-family: inherit; cursor: pointer; border: none; background: none; }
+        img { max-width: 100%; display: block; }
+        .container { max-width: 800px; margin: 0 auto; padding: 0 20px; }
+
+        /* HEADER */
+        .header { background: #fff; border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; }
+        .header-inner { display: flex; justify-content: space-between; align-items: center; padding: 14px 0; }
+        .logo { display: flex; align-items: center; gap: 12px; }
+        .logo-icon { width: 40px; height: 40px; background: #fff; border: 1px solid var(--border); border-radius: 10px; padding: 3px; }
+        .logo-icon img { width: 100%; height: 100%; object-fit: contain; }
+        .logo-text { display: flex; flex-direction: column; line-height: 1.1; }
+        .logo-name { font-weight: 800; font-size: 16px; color: var(--primary); }
+        .logo-sub { font-size: 10px; color: var(--text-muted); font-weight: 500; }
+        .header-back { padding: 8px 16px; background: var(--bg); border-radius: 8px; font-size: 13px; font-weight: 600; color: var(--primary); }
+        .header-back:hover { background: var(--border); }
+
+        /* HERO */
+        .hero {
+            background: linear-gradient(135deg, var(--primary) 0%, #08203d 100%);
+            color: #fff;
+            padding: 60px 0;
+            text-align: center;
+        }
+        .hero h1 { font-size: 36px; margin-bottom: 12px; }
+        .hero p { color: rgba(255,255,255,0.8); font-size: 16px; max-width: 600px; margin: 0 auto; }
+
+        /* MAIN */
+        .main { padding: 40px 0 60px; }
+        
+        .step-card {
+            background: #fff;
+            border-radius: var(--radius-lg);
+            padding: 32px;
+            margin-bottom: 20px;
+            border: 1px solid var(--border);
+            box-shadow: 0 4px 16px rgba(13,43,78,0.05);
+        }
+        .step-title { font-size: 22px; color: var(--primary); margin-bottom: 8px; display: flex; align-items: center; gap: 10px; }
+        .step-num { width: 32px; height: 32px; background: var(--primary); color: #fff; border-radius: 50%; display: grid; place-items: center; font-size: 16px; font-weight: 800; }
+        .step-desc { color: var(--text-muted); font-size: 14px; margin-bottom: 20px; }
+
+        /* DROP ZONE */
+        .drop-zone {
+            border: 3px dashed var(--border);
+            border-radius: var(--radius);
+            padding: 60px 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            background: var(--bg);
+        }
+        .drop-zone:hover, .drop-zone.dragover {
+            border-color: var(--primary);
+            background: rgba(13,43,78,0.03);
+            transform: scale(1.01);
+        }
+        .drop-zone-icon { font-size: 64px; margin-bottom: 16px; opacity: 0.7; }
+        .drop-zone-text { font-size: 18px; font-weight: 600; color: var(--primary); margin-bottom: 8px; }
+        .drop-zone-hint { font-size: 13px; color: var(--text-muted); }
+        .drop-zone input { display: none; }
+
+        /* PROCESSING */
+        .processing { display: none; text-align: center; padding: 40px 20px; }
+        .processing.active { display: block; }
+        .spinner {
+            width: 56px; height: 56px;
+            border: 5px solid var(--border);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .processing-text { font-size: 16px; color: var(--text-muted); }
+
+        /* PREVIEW */
+        .preview { display: none; }
+        .preview.active { display: block; }
+        .preview-container {
+            background: #fff;
+            border: 2px solid var(--success);
+            border-radius: var(--radius);
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 20px;
+            background-image: linear-gradient(45deg, #f0f0f0 25%, transparent 25%),
+                              linear-gradient(-45deg, #f0f0f0 25%, transparent 25%),
+                              linear-gradient(45deg, transparent 75%, #f0f0f0 75%),
+                              linear-gradient(-45deg, transparent 75%, #f0f0f0 75%);
+            background-size: 20px 20px;
+            background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+        }
+        .preview-container img { max-width: 100%; max-height: 200px; margin: 0 auto; }
+        .preview-info { padding: 12px; background: rgba(0,166,81,0.1); border-radius: 8px; color: var(--success); font-weight: 600; font-size: 14px; text-align: center; margin-bottom: 20px; }
+
+        /* BUTTONS */
+        .btn-group { display: flex; gap: 12px; flex-wrap: wrap; }
+        .btn {
+            flex: 1;
+            min-width: 180px;
+            padding: 14px 24px;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 15px;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            cursor: pointer;
+            border: none;
+            font-family: inherit;
+        }
+        .btn-primary { background: var(--primary); color: #fff; }
+        .btn-primary:hover { background: var(--primary-light); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(13,43,78,0.2); }
+        .btn-success { background: var(--success); color: #fff; }
+        .btn-success:hover { background: #009148; transform: translateY(-1px); }
+        .btn-outline { background: transparent; color: var(--primary); border: 2px solid var(--border); }
+        .btn-outline:hover { background: var(--bg); border-color: var(--primary); }
+
+        /* INFO */
+        .info-block {
+            background: rgba(212,175,55,0.1);
+            border-left: 4px solid var(--gold);
+            padding: 16px 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+            font-size: 14px;
+            color: #6b5b1a;
+        }
+        .info-block strong { color: #1a1a1a; }
+
+        /* STEPS */
+        .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-top: 20px; }
+        .step-item {
+            padding: 16px;
+            background: var(--bg);
+            border-radius: 8px;
+            text-align: center;
+        }
+        .step-item-num { width: 32px; height: 32px; background: var(--primary); color: #fff; border-radius: 50%; display: grid; place-items: center; font-weight: 700; margin: 0 auto 8px; }
+        .step-item-text { font-size: 13px; color: var(--text-muted); }
+
+        /* ERROR */
+        .error { display: none; padding: 16px 20px; background: rgba(200,16,46,0.1); border-left: 4px solid var(--accent); border-radius: 8px; color: var(--accent); font-weight: 500; font-size: 14px; margin-top: 20px; }
+        .error.active { display: block; }
+
+        /* FOOTER */
+        .footer { background: var(--primary); color: rgba(255,255,255,0.7); text-align: center; padding: 30px 20px; font-size: 13px; }
+
+        @media (max-width: 640px) {
+            .hero h1 { font-size: 26px; }
+            .step-card { padding: 20px; }
+            .btn { min-width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+<header class="header">
+    <div class="container header-inner">
+        <a href="index.html" class="logo">
+            <div class="logo-icon"><img src="assets/logo.png" alt="О-Банк"></div>
+            <div class="logo-text">
+                <div class="logo-name">О-БАНК</div>
+                <div class="logo-sub">Конвертер подписи</div>
+            </div>
+        </a>
+        <a href="index.html" class="header-back">← На главную</a>
+    </div>
+</header>
+
+<section class="hero">
+    <div class="container">
+        <h1>✍️ Конвертер подписи</h1>
+        <p>Создали подпись на podpis-online.ru? Загрузите GIF — мы сделаем PNG для О-Банка автоматически!</p>
+    </div>
+</section>
+
+<main class="main">
+    <div class="container">
+
+        <div class="step-card">
+            <h2 class="step-title"><span class="step-num">1</span> Как использовать?</h2>
+            <p class="step-desc">Всё просто и занимает 30 секунд</p>
+            
+            <div class="steps">
+                <div class="step-item">
+                    <div class="step-item-num">1</div>
+                    <div class="step-item-text">Создайте подпись на <a href="https://podpis-online.ru/index_mobile.php" target="_blank" style="color:var(--primary);font-weight:600;">podpis-online.ru</a></div>
+                </div>
+                <div class="step-item">
+                    <div class="step-item-num">2</div>
+                    <div class="step-item-text">Скачайте GIF-файл на телефон</div>
+                </div>
+                <div class="step-item">
+                    <div class="step-item-num">3</div>
+                    <div class="step-item-text">Загрузите GIF в поле ниже</div>
+                </div>
+                <div class="step-item">
+                    <div class="step-item-num">4</div>
+                    <div class="step-item-text">Скачайте готовый PNG</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="step-card">
+            <h2 class="step-title"><span class="step-num">2</span> Загрузите ваш GIF</h2>
+            <p class="step-desc">Поддерживаются файлы до 10 МБ</p>
+
+            <label class="drop-zone" id="dropZone">
+                <input type="file" id="fileInput" accept="image/gif,image/png,image/jpeg">
+                <div class="drop-zone-icon">📁</div>
+                <div class="drop-zone-text">Нажмите или перетащите GIF сюда</div>
+                <div class="drop-zone-hint">Форматы: GIF, PNG, JPEG</div>
+            </label>
+
+            <div class="processing" id="processing">
+                <div class="spinner"></div>
+                <div class="processing-text">Извлекаем последний кадр подписи...</div>
+            </div>
+
+            <div class="error" id="error"></div>
+        </div>
+
+        <div class="step-card preview" id="previewCard">
+            <h2 class="step-title"><span class="step-num">3</span> Ваша подпись готова!</h2>
+            <p class="step-desc">Проверьте результат ниже</p>
+
+            <div class="preview-container">
+                <img id="previewImg" alt="Ваша подпись">
+            </div>
+
+            <div class="preview-info">
+                ✅ Успешно! Подпись извлечена и готова к использованию
+            </div>
+
+            <div class="btn-group">
+                <button class="btn btn-primary" onclick="downloadPng()">
+                    <span>💾</span>
+                    Скачать PNG
+                </button>
+                <button class="btn btn-success" onclick="uploadToObank()">
+                    <span>🏦</span>
+                    Использовать в О-Банке
+                </button>
+                <button class="btn btn-outline" onclick="reset()">
+                    <span>🔄</span>
+                    Загрузить другой
+                </button>
+            </div>
+
+            <div class="info-block">
+                💡 <strong>Совет:</strong> сохраните PNG в надёжном месте — он понадобится при подписании договоров с О-Банком.
+            </div>
+        </div>
+
+    </div>
+</main>
+
+<footer class="footer">
+    <div class="container">
+        <div><strong style="color:#fff;">© О-Банк, 2000–2026</strong></div>
+        <div style="margin-top: 8px;">Орловский государственный банк · Финансовая опора Государства</div>
+    </div>
+</footer>
+
+<script>
+(function() {
+    'use strict';
+    
+    var currentPngBlob = null;
+    var currentPngDataUrl = null;
+    
+    var dropZone = document.getElementById('dropZone');
+    var fileInput = document.getElementById('fileInput');
+    var processing = document.getElementById('processing');
+    var previewCard = document.getElementById('previewCard');
+    var previewImg = document.getElementById('previewImg');
+    var errorBox = document.getElementById('error');
+    
+    // Drag & Drop
+    ['dragenter', 'dragover'].forEach(function(evt) {
+        dropZone.addEventListener(evt, function(e) {
+            e.preventDefault();
+            dropZone.classList.add('dragover');
+        });
+    });
+    ['dragleave', 'drop'].forEach(function(evt) {
+        dropZone.addEventListener(evt, function(e) {
+            e.preventDefault();
+            dropZone.classList.remove('dragover');
+        });
+    });
+    dropZone.addEventListener('drop', function(e) {
+        if (e.dataTransfer.files.length > 0) {
+            handleFile(e.dataTransfer.files[0]);
+        }
+    });
+    
+    fileInput.addEventListener('change', function(e) {
+        if (e.target.files.length > 0) {
+            handleFile(e.target.files[0]);
+        }
+    });
+    
+    function showError(msg) {
+        errorBox.textContent = '❌ ' + msg;
+        errorBox.classList.add('active');
+        processing.classList.remove('active');
+    }
+    
+    function hideError() {
+        errorBox.classList.remove('active');
+    }
+    
+    function handleFile(file) {
+        hideError();
+        previewCard.classList.remove('active');
+        
+        if (file.size > 10 * 1024 * 1024) {
+            showError('Файл слишком большой (макс 10 МБ)');
+            return;
+        }
+        
+        processing.classList.add('active');
+        
+        var reader = new FileReader();
+        reader.onload = function(e) {
+            var buffer = e.target.result;
+            
+            if (file.type === 'image/gif') {
+                extractLastFrameFromGif(buffer);
+            } else {
+                // Если это PNG/JPEG — просто пропускаем
+                convertToPng(buffer, file.type);
+            }
+        };
+        reader.onerror = function() {
+            showError('Не удалось прочитать файл');
+        };
+        reader.readAsArrayBuffer(file);
+    }
+    
+    function extractLastFrameFromGif(buffer) {
+        try {
+            var gif = new GifReader(new Uint8Array(buffer));
+            var frames = parseGIF(buffer);
+            var decodedFrames = decompressFrames(frames, true);
+            
+            if (decodedFrames.length === 0) {
+                showError('GIF не содержит кадров');
+                return;
+            }
+            
+            // Берём ПОСЛЕДНИЙ кадр
+            var lastFrame = decodedFrames[decodedFrames.length - 1];
+            
+            // Собираем полное изображение (наложение всех кадров)
+            var canvas = document.createElement('canvas');
+            canvas.width = lastFrame.dims.width + lastFrame.dims.left;
+            canvas.height = lastFrame.dims.height + lastFrame.dims.top;
+            
+            // Используем полный размер GIF
+            var fullWidth = 0;
+            var fullHeight = 0;
+            decodedFrames.forEach(function(f) {
+                var w = f.dims.width + f.dims.left;
+                var h = f.dims.height + f.dims.top;
+                if (w > fullWidth) fullWidth = w;
+                if (h > fullHeight) fullHeight = h;
+            });
+            
+            canvas.width = fullWidth;
+            canvas.height = fullHeight;
+            
+            var ctx = canvas.getContext('2d');
+            ctx.fillStyle = 'white';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            // Рисуем все кадры по очереди (для правильной композиции)
+            decodedFrames.forEach(function(frame) {
+                var frameCanvas = document.createElement('canvas');
+                frameCanvas.width = frame.dims.width;
+                frameCanvas.height = frame.dims.height;
+                var frameCtx = frameCanvas.getContext('2d');
+                var imgData = frameCtx.createImageData(frame.dims.width, frame.dims.height);
+                imgData.data.set(frame.patch);
+                frameCtx.putImageData(imgData, 0, 0);
+                ctx.drawImage(frameCanvas, frame.dims.left, frame.dims.top);
+            });
+            
+            // Удаляем белый фон (делаем прозрачным)
+            var imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            var data = imageData.data;
+            for (var i = 0; i < data.length; i += 4) {
+                var r = data[i], g = data[i+1], b = data[i+2];
+                if (r > 240 && g > 240 && b > 240) {
+                    data[i+3] = 0; // прозрачный
+                }
+            }
+            ctx.putImageData(imageData, 0, 0);
+            
+            // Обрезаем пустое пространство
+            var trimmed = trimCanvas(canvas);
+            
+            trimmed.toBlob(function(blob) {
+                currentPngBlob = blob;
+                currentPngDataUrl = trimmed.toDataURL('image/png');
+                previewImg.src = currentPngDataUrl;
+                processing.classList.remove('active');
+                previewCard.classList.add('active');
+                window.scrollTo({ top: previewCard.offsetTop - 80, behavior: 'smooth' });
+            }, 'image/png');
+            
+        } catch (err) {
+            console.error(err);
+            showError('Ошибка обработки GIF: ' + err.message);
+        }
+    }
+    
+    function parseGIF(buffer) {
+        // Используем встроенный GIF-парсер
+        if (typeof gifuct !== 'undefined' && gifuct.parseGIF) {
+            return gifuct.parseGIF(buffer);
+        }
+        return window.parseGIF(buffer);
+    }
+    
+    function decompressFrames(gif, useLocalPalette) {
+        if (typeof gifuct !== 'undefined' && gifuct.decompressFrames) {
+            return gifuct.decompressFrames(gif, useLocalPalette);
+        }
+        return window.decompressFrames(gif, useLocalPalette);
+    }
+    
+    function trimCanvas(canvas) {
+        var ctx = canvas.getContext('2d');
+        var w = canvas.width, h = canvas.height;
+        var imageData = ctx.getImageData(0, 0, w, h);
+        var data = imageData.data;
+        
+        var top = h, bottom = 0, left = w, right = 0;
+        var hasContent = false;
+        
+        for (var y = 0; y < h; y++) {
+            for (var x = 0; x < w; x++) {
+                var i = (y * w + x) * 4;
+                if (data[i+3] > 20) { // не полностью прозрачный
+                    hasContent = true;
+                    if (y < top) top = y;
+                    if (y > bottom) bottom = y;
+                    if (x < left) left = x;
+                    if (x > right) right = x;
+                }
+            }
+        }
+        
+        if (!hasContent) return canvas;
+        
+        var padding = 20;
+        var newW = right - left + padding * 2;
+        var newH = bottom - top + padding * 2;
+        
+        var newCanvas = document.createElement('canvas');
+        newCanvas.width = newW;
+        newCanvas.height = newH;
+        var newCtx = newCanvas.getContext('2d');
+        newCtx.drawImage(canvas, left - padding, top - padding, newW, newH, 0, 0, newW, newH);
+        
+        return newCanvas;
+    }
+    
+    function convertToPng(buffer, mimeType) {
+        var blob = new Blob([buffer], { type: mimeType });
+        var url = URL.createObjectURL(blob);
+        var img = new Image();
+        img.onload = function() {
+            var canvas = document.createElement('canvas');
+            canvas.width = img.width;
+            canvas.height = img.height;
+            var ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0);
+            
+            var imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            var data = imageData.data;
+            for (var i = 0; i < data.length; i += 4) {
+                var r = data[i], g = data[i+1], b = data[i+2];
+                if (r > 240 && g > 240 && b > 240) {
+                    data[i+3] = 0;
+                }
+            }
+            ctx.putImageData(imageData, 0, 0);
+            
+            var trimmed = trimCanvas(canvas);
+            trimmed.toBlob(function(blob) {
+                currentPngBlob = blob;
+                currentPngDataUrl = trimmed.toDataURL('image/png');
+                previewImg.src = currentPngDataUrl;
+                processing.classList.remove('active');
+                previewCard.classList.add('active');
+                window.scrollTo({ top: previewCard.offsetTop - 80, behavior: 'smooth' });
+                URL.revokeObjectURL(url);
+            }, 'image/png');
+        };
+        img.onerror = function() {
+            showError('Не удалось обработать изображение');
+            URL.revokeObjectURL(url);
+        };
+        img.src = url;
+    }
+    
+    window.downloadPng = function() {
+        if (!currentPngBlob) return;
+        var url = URL.createObjectURL(currentPngBlob);
+        var a = document.createElement('a');
+        a.href = url;
+        a.download = 'signature-obank.png';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+    };
+    
+    window.uploadToObank = function() {
+        if (!currentPngDataUrl) return;
+        localStorage.setItem('obank_pending_signature', currentPngDataUrl);
+        window.location.href = 'cabinet.html?signature=ready';
+    };
+    
+    window.reset = function() {
+        currentPngBlob = null;
+        currentPngDataUrl = null;
+        previewCard.classList.remove('active');
+        fileInput.value = '';
+        hideError();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+})();
+</script>
+
+</body>
+</html>
